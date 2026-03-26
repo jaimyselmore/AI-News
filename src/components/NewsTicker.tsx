@@ -1,61 +1,49 @@
 "use client";
-
 import { newsItems } from "@/lib/data";
 
 export default function NewsTicker() {
-  const headlines = newsItems.map((n) => `${n.tag}  ${n.title}`);
-  const doubled = [...headlines, ...headlines];
+  const items = newsItems.map(n => `${n.tag}  ${n.title}`);
+  const doubled = [...items, ...items];
 
   return (
-    <div
-      style={{
-        background: "#E8392A",
-        borderBottom: "1px solid #2E2E2E",
-        overflow: "hidden",
-        height: "36px",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          background: "#111",
-          padding: "0 14px",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          minWidth: "max-content",
-          borderRight: "2px solid #E8392A",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "10px",
-            fontWeight: "800",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "#E8392A",
-          }}
-        >
+    <div style={{
+      height: "38px", overflow: "hidden",
+      display: "flex", alignItems: "center",
+      background: "linear-gradient(90deg, #E8392A, #F97316)",
+      borderBottom: "none",
+      position: "relative",
+    }}>
+      {/* Label */}
+      <div style={{
+        background: "rgba(0,0,0,0.15)",
+        padding: "0 16px",
+        height: "100%",
+        display: "flex", alignItems: "center",
+        minWidth: "max-content",
+        backdropFilter: "blur(4px)",
+      }}>
+        <span style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "10px", fontWeight: "800",
+          letterSpacing: "0.12em", textTransform: "uppercase",
+          color: "white",
+        }}>
           LIVE
         </span>
       </div>
+
+      {/* Ticker */}
       <div style={{ overflow: "hidden", flex: 1 }}>
-        <div className="ticker-inner" style={{ display: "flex", gap: "0" }}>
+        <div className="ticker-inner">
           {doubled.map((headline, i) => (
-            <span
-              key={i}
-              style={{
-                fontSize: "11px",
-                fontWeight: "600",
-                color: "white",
-                padding: "0 32px",
-                whiteSpace: "nowrap",
-                letterSpacing: "0.01em",
-              }}
-            >
+            <span key={i} style={{
+              fontSize: "11px", fontWeight: "600",
+              color: "white", padding: "0 28px",
+              whiteSpace: "nowrap", letterSpacing: "0.01em",
+              opacity: 0.95,
+            }}>
               {headline}
-              <span style={{ marginLeft: "32px", opacity: 0.4 }}>—</span>
+              <span style={{ marginLeft: "28px", opacity: 0.5 }}>·</span>
             </span>
           ))}
         </div>

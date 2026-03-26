@@ -12,87 +12,48 @@ import UploadSection from "@/components/UploadSection";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
-const sectionTitles: Record<Section, { title: string; sub: string }> = {
-  nieuws: { title: "Nieuwste AI Updates", sub: "Curated nieuws voor creative agencies" },
-  tips: { title: "Tips & Tricks", sub: "Van beginner tot pro — praktische AI-workflows" },
-  tools: { title: "AI Tools", sub: "Wat wij gebruiken + de beste aanraders" },
-  upload: { title: "Upload Eigen Content", sub: "Deel nieuws, tools of tips met het team" },
+const sectionMeta: Record<Section, { title: string; sub: string; accent: string }> = {
+  nieuws: { title: "Nieuwste AI Updates",    sub: "Curated nieuws voor Selmore",            accent: "#E8392A" },
+  tips:   { title: "Tips & Tricks",          sub: "Van beginner tot pro — praktische workflows", accent: "#F59E0B" },
+  tools:  { title: "AI Tools",               sub: "Wat wij gebruiken + de beste aanraders",  accent: "#7C3AED" },
+  upload: { title: "Upload eigen content",   sub: "Deel nieuws, tools of tips met het team", accent: "#0D9488" },
 };
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("nieuws");
-
-  const { title, sub } = sectionTitles[activeSection];
+  const meta = sectionMeta[activeSection];
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden", background: "#111111" }}>
-      {/* Sidebar */}
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden", background: "#FDF8F3" }}>
       <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
 
-      {/* Main area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        {/* Ticker */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
         <NewsTicker />
 
-        {/* Content area */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            overflow: "hidden",
-          }}
-        >
-          {/* Main content */}
-          <main
-            style={{
-              flex: 1,
-              overflowY: "auto",
-              padding: "28px 32px",
-            }}
-          >
+        <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+          {/* Main */}
+          <main style={{ flex: 1, overflowY: "auto", padding: "32px 36px" }}>
             {/* Page header */}
-            <div style={{ marginBottom: "24px" }}>
-              <h1
-                style={{
-                  fontSize: "24px",
-                  fontWeight: "800",
-                  color: "white",
-                  letterSpacing: "-0.025em",
-                  marginBottom: "4px",
-                }}
-              >
-                {title}
-              </h1>
-              <p style={{ fontSize: "13px", color: "#555" }}>{sub}</p>
+            <div style={{ marginBottom: "28px" }} className="fade-up">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                <div style={{ width: "4px", height: "22px", background: meta.accent, borderRadius: "2px" }} />
+                <h1 style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "22px", fontWeight: "800",
+                  color: "#1A0F0A", letterSpacing: "-0.03em",
+                }}>
+                  {meta.title}
+                </h1>
+              </div>
+              <p style={{ fontSize: "13px", color: "#9B7B6B", paddingLeft: "14px" }}>{meta.sub}</p>
             </div>
 
-            {activeSection === "nieuws" && (
-              <div className="fade-in">
-                <FeaturedNews />
-                <NewsGrid />
-              </div>
-            )}
-
-            {activeSection === "tips" && (
-              <div className="fade-in">
-                <TipsSection />
-              </div>
-            )}
-
-            {activeSection === "tools" && (
-              <div className="fade-in">
-                <ToolsSection />
-              </div>
-            )}
-
-            {activeSection === "upload" && (
-              <div className="fade-in">
-                <UploadSection />
-              </div>
-            )}
+            {activeSection === "nieuws" && <><FeaturedNews /><NewsGrid /></>}
+            {activeSection === "tips"   && <TipsSection />}
+            {activeSection === "tools"  && <ToolsSection />}
+            {activeSection === "upload" && <UploadSection />}
           </main>
 
-          {/* Right sidebar — alleen op nieuws */}
           {activeSection === "nieuws" && <NewsSidebar />}
         </div>
       </div>

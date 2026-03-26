@@ -1,14 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Newspaper,
-  Lightbulb,
-  Wrench,
-  Upload,
-  Zap,
-  ChevronRight,
-} from "lucide-react";
+import { Newspaper, Lightbulb, Wrench, Upload, Zap, ChevronRight } from "lucide-react";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
@@ -18,107 +10,55 @@ interface SidebarProps {
 }
 
 const navItems = [
-  {
-    id: "nieuws" as Section,
-    label: "Nieuws",
-    sublabel: "Laatste updates",
-    icon: Newspaper,
-  },
-  {
-    id: "tips" as Section,
-    label: "Tips & Tricks",
-    sublabel: "Niveaus: beginner → pro",
-    icon: Lightbulb,
-  },
-  {
-    id: "tools" as Section,
-    label: "Alle Tools",
-    sublabel: "Wij gebruiken + aanraders",
-    icon: Wrench,
-  },
-  {
-    id: "upload" as Section,
-    label: "Upload Eigen",
-    sublabel: "Voeg content toe",
-    icon: Upload,
-  },
+  { id: "nieuws"  as Section, label: "Nieuws",        sub: "Laatste AI updates",      icon: Newspaper, color: "#E8392A" },
+  { id: "tips"    as Section, label: "Tips & Tricks",  sub: "Beginner tot pro",        icon: Lightbulb, color: "#F59E0B" },
+  { id: "tools"   as Section, label: "Alle Tools",     sub: "Gebruik + aanraders",     icon: Wrench,    color: "#7C3AED" },
+  { id: "upload"  as Section, label: "Upload",         sub: "Voeg content toe",        icon: Upload,    color: "#0D9488" },
 ];
 
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   return (
-    <aside
-      style={{
-        width: "220px",
-        minWidth: "220px",
-        background: "#1A1A1A",
-        borderRight: "1px solid #2E2E2E",
-        height: "100vh",
-        position: "sticky",
-        top: 0,
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* Logo */}
-      <div
-        style={{
-          padding: "24px 20px 20px",
-          borderBottom: "1px solid #2E2E2E",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <div
-            style={{
-              width: "28px",
-              height: "28px",
-              background: "#E8392A",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Zap size={16} color="white" fill="white" />
+    <aside style={{
+      width: "230px", minWidth: "230px",
+      background: "#FFFFFF",
+      borderRight: "1px solid #EDE0D4",
+      height: "100vh",
+      position: "sticky", top: 0,
+      display: "flex", flexDirection: "column",
+      fontFamily: "var(--font-body)",
+    }}>
+
+      {/* Brand */}
+      <div style={{ padding: "28px 24px 24px", borderBottom: "1px solid #F5EDE5" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{
+            width: "34px", height: "34px",
+            background: "linear-gradient(135deg, #E8392A, #F97316)",
+            borderRadius: "10px",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(232,57,42,0.3)",
+          }}>
+            <Zap size={17} color="white" fill="white" />
           </div>
           <div>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: "800",
-                letterSpacing: "-0.02em",
-                color: "white",
-              }}
-            >
-              AI NEWS
+            <div style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "18px", fontWeight: "800",
+              color: "#1A0F0A", letterSpacing: "-0.03em",
+              lineHeight: 1,
+            }}>
+              More<span style={{ color: "#E8392A" }}>.</span>AI
             </div>
-            <div
-              style={{
-                fontSize: "10px",
-                color: "#888",
-                fontWeight: "600",
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-              }}
-            >
-              Selmore
+            <div style={{ fontSize: "10px", color: "#9B7B6B", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+              by Selmore
             </div>
           </div>
         </div>
       </div>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: "16px 12px" }}>
-        <div
-          style={{
-            fontSize: "10px",
-            fontWeight: "700",
-            color: "#555",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            marginBottom: "8px",
-            paddingLeft: "8px",
-          }}
-        >
+      <nav style={{ flex: 1, padding: "20px 14px", display: "flex", flexDirection: "column", gap: "4px" }}>
+        <div style={{ fontSize: "10px", fontWeight: "700", color: "#C4A99A", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0 10px", marginBottom: "8px" }}>
           Navigatie
         </div>
         {navItems.map((item) => {
@@ -128,93 +68,46 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
             <button
               key={item.id}
               onClick={() => onSectionChange(item.id)}
+              className="nav-item"
               style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "10px 8px",
-                borderRadius: "8px",
-                border: "none",
-                background: isActive ? "#E8392A15" : "transparent",
-                cursor: "pointer",
-                transition: "background 0.15s",
-                marginBottom: "2px",
-                position: "relative",
+                width: "100%", border: "none", cursor: "pointer",
+                padding: "10px 10px",
+                display: "flex", alignItems: "center", gap: "12px",
+                background: isActive ? item.color : "transparent",
+                color: isActive ? "white" : "#5C4033",
+                transition: "all 0.2s ease",
               }}
             >
-              {isActive && (
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "3px",
-                    height: "60%",
-                    background: "#E8392A",
-                    borderRadius: "0 2px 2px 0",
-                  }}
-                />
-              )}
-              <Icon
-                size={16}
-                color={isActive ? "#E8392A" : "#666"}
-                strokeWidth={isActive ? 2.5 : 2}
-              />
+              <div style={{
+                width: "32px", height: "32px",
+                background: isActive ? "rgba(255,255,255,0.2)" : item.color + "15",
+                borderRadius: "8px",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                <Icon size={15} color={isActive ? "white" : item.color} strokeWidth={2} />
+              </div>
               <div style={{ textAlign: "left", flex: 1 }}>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    fontWeight: isActive ? "700" : "500",
-                    color: isActive ? "white" : "#aaa",
-                  }}
-                >
+                <div style={{ fontSize: "13px", fontWeight: "700", fontFamily: "var(--font-display)" }}>
                   {item.label}
                 </div>
-                <div style={{ fontSize: "10px", color: "#555" }}>
-                  {item.sublabel}
+                <div style={{ fontSize: "10px", opacity: isActive ? 0.75 : 0.6 }}>
+                  {item.sub}
                 </div>
               </div>
-              {isActive && (
-                <ChevronRight size={12} color="#E8392A" />
-              )}
+              {isActive && <ChevronRight size={13} color="white" />}
             </button>
           );
         })}
       </nav>
 
-      {/* Footer */}
-      <div
-        style={{
-          padding: "16px 20px",
-          borderTop: "1px solid #2E2E2E",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            marginBottom: "4px",
-          }}
-        >
-          <div
-            className="pulse-dot"
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: "#22C55E",
-            }}
-          />
-          <span style={{ fontSize: "11px", color: "#555", fontWeight: "600" }}>
-            LIVE — automatisch bijgewerkt
-          </span>
+      {/* Live indicator */}
+      <div style={{ padding: "16px 24px", borderTop: "1px solid #F5EDE5" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "4px" }}>
+          <div className="pulse-dot" style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E", flexShrink: 0 }} />
+          <span style={{ fontSize: "11px", fontWeight: "600", color: "#5C4033" }}>Live bijgewerkt</span>
         </div>
-        <div style={{ fontSize: "10px", color: "#444" }}>
-          Selmore Creative Agency · Amsterdam
-        </div>
+        <div style={{ fontSize: "10px", color: "#C4A99A" }}>Amsterdam · Selmore Agency</div>
       </div>
     </aside>
   );

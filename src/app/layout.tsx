@@ -1,30 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "AI News — Selmore",
-  description: "Het laatste AI nieuws, tools en tips voor creative agencies.",
+  title: "More AI — Selmore",
+  description: "Curated AI nieuws, tools en tips voor Selmore creative agency Amsterdam.",
   openGraph: {
-    title: "AI News — Selmore",
-    description: "Het laatste AI nieuws, tools en tips voor creative agencies.",
+    title: "More AI — Selmore",
+    description: "Curated AI nieuws, tools en tips voor Selmore creative agency Amsterdam.",
     type: "website",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nl" className={`${inter.variable} h-full`}>
+    <html lang="nl" className="h-full">
       <body className="min-h-full">{children}</body>
     </html>
   );
