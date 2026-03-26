@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-red: #E8392A;
+  --color-orange: #F97316;
+  --color-orange-light: #FB923C;
+  --color-dark: #111111;
+  --color-dark-2: #1A1A1A;
+  --color-dark-3: #242424;
+  --color-border: #2E2E2E;
+  --color-muted: #888888;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #111111;
+  color: #FFFFFF;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #111111; }
+::-webkit-scrollbar-thumb { background: #2E2E2E; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #E8392A; }
+
+::selection { background: #E8392A; color: white; }
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-inner {
+  animation: ticker 35s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+.ticker-inner:hover { animation-play-state: paused; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.pulse-dot { animation: pulse 1.5s ease-in-out infinite; }
+
+.card-hover {
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card-hover:hover {
+  border-color: #E8392A !important;
+  transform: translateY(-2px);
+}
+
+.card-hover-orange:hover {
+  border-color: #F97316 !important;
+  transform: translateY(-2px);
+}
