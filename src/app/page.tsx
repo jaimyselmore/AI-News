@@ -114,8 +114,8 @@ export default function Home() {
         <div style={{
           position: "absolute", inset: 0,
           background: [
-            "radial-gradient(ellipse 70% 70% at 50% 50%, transparent 25%, rgba(8,4,2,0.50) 100%)",
-            "linear-gradient(to bottom, rgba(8,4,2,0.38) 0%, transparent 22%, transparent 58%, rgba(8,4,2,0.62) 100%)",
+            "radial-gradient(ellipse 75% 75% at 50% 50%, transparent 30%, rgba(8,4,2,0.28) 100%)",
+            "linear-gradient(to bottom, rgba(8,4,2,0.22) 0%, transparent 25%, transparent 62%, rgba(8,4,2,0.42) 100%)",
           ].join(", "),
         }} />
       </div>
