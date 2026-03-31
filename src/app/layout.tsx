@@ -5,8 +5,9 @@ export const metadata: Metadata = {
   title: "More AI — Selmore",
   description: "Curated AI nieuws, tools en tips voor Selmore creative agency Amsterdam.",
   icons: {
-    icon: "/globe-icon.svg",
-    shortcut: "/globe-icon.svg",
+    icon: "/globe-favicon.png",
+    shortcut: "/globe-favicon.png",
+    apple: "/globe-favicon.png",
   },
   openGraph: {
     title: "More AI — Selmore",
