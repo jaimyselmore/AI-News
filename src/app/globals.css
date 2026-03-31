@@ -96,6 +96,18 @@ body {
   background-clip: text;
 }
 
+/* Loading screen — spinner ringen */
+@keyframes spinCW {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spinCCW {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+.loader-spin-outer { animation: spinCW  1.1s linear infinite; }
+.loader-spin-inner { animation: spinCCW 1.8s linear infinite; }
+
 /* Loading screen — orbital ring pulse */
 @keyframes ringPulse {
   0%, 100% { opacity: 0.3; }
