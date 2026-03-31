@@ -1,34 +1,41 @@
 import type { NewsItem } from "@/lib/data";
 import { Clock, ArrowUpRight } from "lucide-react";
 
-const tagStyle: Record<string, { bg: string; color: string }> = {
-  BREAKING:    { bg: "#FDECEA", color: "#9B1C10" },
-  UPDATE:      { bg: "#FEF3C7", color: "#92400E" },
-  TOOLS:       { bg: "#EDE9FE", color: "#5B21B6" },
-  AI:          { bg: "#DBEAFE", color: "#1D4ED8" },
-  VIDEO:       { bg: "#FCE7F3", color: "#9D174D" },
-  AUDIO:       { bg: "#CCFBF1", color: "#0F766E" },
-  REGELGEVING: { bg: "#FEF9C3", color: "#713F12" },
+const tagColor: Record<string, string> = {
+  BREAKING:    "#E53E2A",
+  UPDATE:      "#D09828",
+  TOOLS:       "#7C3AED",
+  AI:          "#2563EB",
+  VIDEO:       "#DB2777",
+  AUDIO:       "#0D9488",
+  REGELGEVING: "#C2820A",
 };
 
 function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
-  const t = tagStyle[item.tag] ?? { bg: "#F3F0EB", color: "#5C3020" };
+  const color = tagColor[item.tag] ?? "#C83820";
   return (
     <a
       href={item.url ?? "#"}
       target={item.url ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="card fade-up"
+      className="glass-card fade-up"
       style={{
-        animationDelay: `${delay}s`, opacity: 0,
+        animationDelay: `${delay}s`,
+        opacity: 0,
         padding: "22px 24px",
-        display: "flex", flexDirection: "column", gap: "12px",
-        textDecoration: "none", color: "inherit",
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+        textDecoration: "none",
+        color: "inherit",
       }}
     >
+      {/* Tag + arrow */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span style={{
-          background: t.bg, color: t.color,
+          background: color + "28",
+          color: "white",
+          border: `1px solid ${color}55`,
           fontFamily: "var(--font-display)",
           fontSize: "10px", fontWeight: "800",
           letterSpacing: "0.06em", textTransform: "uppercase",
@@ -36,26 +43,44 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
         }}>
           {item.tag}
         </span>
-        <ArrowUpRight size={15} color="#9B7060" />
+        <ArrowUpRight size={14} color="rgba(255,255,255,0.35)" />
       </div>
 
+      {/* Titel */}
       <h3 style={{
         fontFamily: "var(--font-display)",
         fontSize: "14px", fontWeight: "700",
-        color: "#1A0805", lineHeight: "1.45",
+        color: "white",
+        lineHeight: "1.4",
         letterSpacing: "-0.01em",
+        textShadow: "0 1px 8px rgba(0,0,0,0.15)",
       }}>
         {item.title}
       </h3>
 
-      <p style={{ fontSize: "12px", color: "#9B7060", lineHeight: "1.7", flex: 1 }}>
-        {item.summary.slice(0, 120)}…
+      {/* Samenvatting */}
+      <p style={{
+        fontSize: "12px",
+        color: "rgba(255,255,255,0.55)",
+        lineHeight: "1.7",
+        flex: 1,
+      }}>
+        {item.summary.slice(0, 115)}…
       </p>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingTop: "10px", borderTop: "1px solid #F5E8D8" }}>
-        <Clock size={11} color="#9B7060" />
-        <span style={{ fontSize: "11px", color: "#9B7060" }}>{item.readTime} min</span>
-        <span style={{ fontSize: "11px", color: "#9B7060", marginLeft: "auto", fontWeight: "500" }}>{item.source}</span>
+      {/* Footer */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        paddingTop: "10px",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+      }}>
+        <Clock size={10} color="rgba(255,255,255,0.3)" />
+        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>{item.readTime} min</span>
+        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", marginLeft: "auto", fontWeight: "500" }}>
+          {item.source}
+        </span>
       </div>
     </a>
   );
@@ -65,22 +90,29 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
   const rest = items.filter(n => !n.featured);
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: "18px",
+      }}>
         <h2 style={{
           fontFamily: "var(--font-display)",
-          fontSize: "17px", fontWeight: "800",
-          color: "#1A0805", letterSpacing: "-0.02em",
+          fontSize: "16px", fontWeight: "700",
+          color: "white",
+          letterSpacing: "-0.02em",
+          textShadow: "0 1px 10px rgba(0,0,0,0.2)",
         }}>
           Alle nieuws
         </h2>
-        <span style={{ fontSize: "12px", color: "#9B7060", fontWeight: "500" }}>
+        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.38)", fontWeight: "500" }}>
           {rest.length} artikelen
         </span>
       </div>
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(285px, 1fr))",
-        gap: "16px",
+        gap: "14px",
       }}>
         {rest.map((item, i) => (
           <NewsCard key={item.id} item={item} delay={0.04 * (i + 1)} />

@@ -8,7 +8,7 @@ type Section = "nieuws" | "tips" | "tools" | "upload";
 interface TopNavProps {
   activeSection: Section;
   onSectionChange: (section: Section) => void;
-  panelOpen: boolean;
+  scrolled: boolean;
 }
 
 const navItems = [
@@ -18,7 +18,7 @@ const navItems = [
   { id: "upload" as Section, label: "Upload",        icon: Upload,    color: "#0D9488" },
 ];
 
-export default function TopNav({ activeSection, onSectionChange, panelOpen }: TopNavProps) {
+export default function TopNav({ activeSection, onSectionChange, scrolled }: TopNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNav = (section: Section) => {
@@ -38,12 +38,12 @@ export default function TopNav({ activeSection, onSectionChange, panelOpen }: To
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 36px",
-        background: panelOpen
+        background: scrolled
           ? "rgba(253,248,243,0.94)"
           : "transparent",
-        backdropFilter: panelOpen ? "blur(20px)" : "none",
-        WebkitBackdropFilter: panelOpen ? "blur(20px)" : "none",
-        borderBottom: panelOpen ? "1px solid rgba(234,208,184,0.45)" : "none",
+        backdropFilter: scrolled ? "blur(20px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(234,208,184,0.45)" : "none",
         transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
       }}>
 
@@ -54,7 +54,7 @@ export default function TopNav({ activeSection, onSectionChange, panelOpen }: To
             borderRadius: "50%",
             overflow: "hidden",
             flexShrink: 0,
-            boxShadow: panelOpen
+            boxShadow: scrolled
               ? "0 0 0 2px rgba(200,56,32,0.2), 0 2px 12px rgba(0,0,0,0.10)"
               : "0 0 0 2px rgba(255,255,255,0.22), 0 4px 18px rgba(0,0,0,0.22)",
             transition: "box-shadow 0.4s ease",
@@ -66,11 +66,11 @@ export default function TopNav({ activeSection, onSectionChange, panelOpen }: To
             fontFamily: "var(--font-display)",
             fontSize: "19px",
             fontWeight: "800",
-            color: panelOpen ? "#1A0805" : "white",
+            color: scrolled ? "#1A0805" : "white",
             letterSpacing: "-0.04em",
             lineHeight: 1,
             transition: "color 0.4s ease",
-            textShadow: panelOpen ? "none" : "0 2px 14px rgba(0,0,0,0.28)",
+            textShadow: scrolled ? "none" : "0 2px 14px rgba(0,0,0,0.28)",
           }}>
             MORE<span style={{ color: "#C83820" }}>.</span>AI
           </div>
@@ -83,13 +83,13 @@ export default function TopNav({ activeSection, onSectionChange, panelOpen }: To
           style={{
             background: menuOpen
               ? "rgba(200,56,32,0.15)"
-              : panelOpen ? "rgba(26,8,5,0.06)" : "rgba(255,255,255,0.13)",
-            border: `1px solid ${panelOpen ? "rgba(234,208,184,0.65)" : "rgba(255,255,255,0.22)"}`,
+              : scrolled ? "rgba(26,8,5,0.06)" : "rgba(255,255,255,0.13)",
+            border: `1px solid ${scrolled ? "rgba(234,208,184,0.65)" : "rgba(255,255,255,0.22)"}`,
             borderRadius: "10px",
             width: "46px", height: "46px",
             display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer",
-            color: panelOpen ? "#1A0805" : "white",
+            color: scrolled ? "#1A0805" : "white",
             transition: "all 0.22s ease",
           }}
         >
