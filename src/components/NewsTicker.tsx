@@ -9,11 +9,9 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
     <div style={{
       height: "38px", overflow: "hidden",
       display: "flex", alignItems: "center",
-      background: "linear-gradient(90deg, #E8392A, #F97316)",
-      borderBottom: "none",
+      background: "linear-gradient(90deg, #C83820, #E07045)",
       position: "relative",
     }}>
-      {/* Label */}
       <div style={{
         background: "rgba(0,0,0,0.15)",
         padding: "0 16px",
@@ -31,8 +29,6 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
           LIVE
         </span>
       </div>
-
-      {/* Ticker */}
       <div style={{ overflow: "hidden", flex: 1 }}>
         <div className="ticker-inner">
           {doubled.map((headline, i) => (

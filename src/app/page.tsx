@@ -5,7 +5,6 @@ import Sidebar from "@/components/Sidebar";
 import NewsTicker from "@/components/NewsTicker";
 import FeaturedNews from "@/components/FeaturedNews";
 import NewsGrid from "@/components/NewsGrid";
-import NewsSidebar from "@/components/NewsSidebar";
 import ToolsSection from "@/components/ToolsSection";
 import TipsSection from "@/components/TipsSection";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -15,8 +14,8 @@ import { newsItems, type NewsItem } from "@/lib/data";
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
 const sectionMeta: Record<Section, { title: string; sub: string; accent: string }> = {
-  nieuws: { title: "Nieuwste AI Updates",    sub: "Curated nieuws voor Selmore",                accent: "#E8392A" },
-  tips:   { title: "Tips & Tricks",          sub: "Van beginner tot pro — praktische workflows", accent: "#F59E0B" },
+  nieuws: { title: "Nieuwste AI Updates",    sub: "Curated nieuws voor Selmore",                accent: "#C83820" },
+  tips:   { title: "Tips & Tricks",          sub: "Van beginner tot pro — praktische workflows", accent: "#D09828" },
   tools:  { title: "AI Tools",               sub: "Wat wij gebruiken + de beste aanraders",      accent: "#7C3AED" },
   upload: { title: "Upload eigen content",   sub: "Deel nieuws, tools of tips met het team",     accent: "#0D9488" },
 };
@@ -65,8 +64,6 @@ export default function Home() {
             {activeSection === "tools"  && <ToolsSection />}
             {activeSection === "upload" && <UploadSection />}
           </main>
-
-          {activeSection === "nieuws" && <NewsSidebar items={liveNews} />}
         </div>
       </div>
     </div>

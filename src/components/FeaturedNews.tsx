@@ -7,32 +7,32 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
 
   return (
     <div className="fade-up delay-1" style={{
-      background: "linear-gradient(135deg, #FFF5EE 0%, #FDE8D8 60%, #FCDDC8 100%)",
-      border: "1px solid #F5C4A8",
+      background: "linear-gradient(135deg, #FFF5EE 0%, #FDEADC 60%, #F8DECE 100%)",
+      border: "1px solid #EAD0B8",
       borderRadius: "20px",
-      padding: "36px 40px",
+      padding: "40px 44px",
       position: "relative",
       overflow: "hidden",
-      marginBottom: "28px",
+      marginBottom: "32px",
     }}>
       {/* Decoratieve cirkels */}
       <div style={{
         position: "absolute", top: "-80px", right: "-80px",
-        width: "280px", height: "280px",
-        background: "radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)",
+        width: "300px", height: "300px",
+        background: "radial-gradient(circle, rgba(224,112,69,0.12) 0%, transparent 70%)",
         borderRadius: "50%", pointerEvents: "none",
       }} />
       <div style={{
-        position: "absolute", bottom: "-40px", left: "30%",
-        width: "160px", height: "160px",
-        background: "radial-gradient(circle, rgba(232,57,42,0.08) 0%, transparent 70%)",
+        position: "absolute", bottom: "-50px", left: "28%",
+        width: "180px", height: "180px",
+        background: "radial-gradient(circle, rgba(200,56,32,0.07) 0%, transparent 70%)",
         borderRadius: "50%", pointerEvents: "none",
       }} />
 
       {/* Tags */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "18px", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
         <span style={{
-          background: "#E8392A", color: "white",
+          background: "#C83820", color: "white",
           fontFamily: "var(--font-display)",
           fontSize: "10px", fontWeight: "800",
           letterSpacing: "0.1em", textTransform: "uppercase",
@@ -42,11 +42,11 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
         </span>
         <span style={{
           display: "flex", alignItems: "center", gap: "5px",
-          background: "rgba(249,115,22,0.12)",
-          color: "#C2440F",
+          background: "rgba(224,112,69,0.12)",
+          color: "#A83418",
           fontSize: "11px", fontWeight: "600",
           padding: "5px 12px", borderRadius: "100px",
-          border: "1px solid rgba(249,115,22,0.25)",
+          border: "1px solid rgba(224,112,69,0.25)",
         }}>
           <Sparkles size={11} />
           Uitgelicht
@@ -56,21 +56,21 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
       {/* Titel */}
       <h1 style={{
         fontFamily: "var(--font-display)",
-        fontSize: "clamp(22px, 2.8vw, 34px)",
+        fontSize: "clamp(22px, 2.8vw, 36px)",
         fontWeight: "800",
-        color: "#1A0F0A",
+        color: "#1A0805",
         lineHeight: "1.15",
         letterSpacing: "-0.03em",
-        marginBottom: "14px",
-        maxWidth: "620px",
+        marginBottom: "16px",
+        maxWidth: "680px",
       }}>
         {featured.title}
       </h1>
 
       {/* Samenvatting */}
       <p style={{
-        fontSize: "15px", lineHeight: "1.7",
-        color: "#5C4033", marginBottom: "24px", maxWidth: "580px",
+        fontSize: "15px", lineHeight: "1.75",
+        color: "#5C3020", marginBottom: "28px", maxWidth: "620px",
       }}>
         {featured.summary}
       </p>
@@ -78,11 +78,11 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
       {/* Meta + CTA */}
       <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <Clock size={13} color="#9B7B6B" />
-          <span style={{ fontSize: "12px", color: "#9B7B6B" }}>{featured.readTime} min lezen</span>
+          <Clock size={13} color="#9B7060" />
+          <span style={{ fontSize: "12px", color: "#9B7060" }}>{featured.readTime} min lezen</span>
         </div>
-        <span style={{ fontSize: "12px", color: "#9B7B6B" }}>—</span>
-        <span style={{ fontSize: "12px", color: "#9B7B6B", fontWeight: "500" }}>{featured.source}</span>
+        <span style={{ fontSize: "12px", color: "#9B7060" }}>—</span>
+        <span style={{ fontSize: "12px", color: "#9B7060", fontWeight: "500" }}>{featured.source}</span>
         {featured.url && (
           <a
             href={featured.url}
@@ -91,17 +91,17 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
             style={{
               marginLeft: "auto",
               display: "flex", alignItems: "center", gap: "8px",
-              background: "#E8392A", color: "white",
+              background: "#C83820", color: "white",
               border: "none", borderRadius: "100px",
-              padding: "11px 22px",
+              padding: "12px 24px",
               fontFamily: "var(--font-display)",
               fontSize: "13px", fontWeight: "700",
               cursor: "pointer", textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(232,57,42,0.35)",
+              boxShadow: "0 4px 16px rgba(200,56,32,0.35)",
               transition: "transform 0.2s, box-shadow 0.2s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(232,57,42,0.4)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(232,57,42,0.35)"; }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(200,56,32,0.4)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(200,56,32,0.35)"; }}
           >
             Lees artikel <ArrowRight size={14} />
           </a>

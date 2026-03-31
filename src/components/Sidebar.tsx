@@ -10,10 +10,10 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { id: "nieuws"  as Section, label: "Nieuws",        sub: "Laatste AI updates",      icon: Newspaper, color: "#E8392A" },
-  { id: "tips"    as Section, label: "Tips & Tricks",  sub: "Beginner tot pro",        icon: Lightbulb, color: "#F59E0B" },
-  { id: "tools"   as Section, label: "Alle Tools",     sub: "Gebruik + aanraders",     icon: Wrench,    color: "#7C3AED" },
-  { id: "upload"  as Section, label: "Upload",         sub: "Voeg content toe",        icon: Upload,    color: "#0D9488" },
+  { id: "nieuws" as Section, label: "Nieuws",       sub: "Laatste AI updates",  icon: Newspaper, color: "#C83820" },
+  { id: "tips"   as Section, label: "Tips & Tricks", sub: "Beginner tot pro",   icon: Lightbulb, color: "#D09828" },
+  { id: "tools"  as Section, label: "Alle Tools",    sub: "Gebruik + aanraders", icon: Wrench,    color: "#7C3AED" },
+  { id: "upload" as Section, label: "Upload",        sub: "Voeg content toe",    icon: Upload,    color: "#0D9488" },
 ];
 
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
@@ -21,7 +21,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     <aside style={{
       width: "230px", minWidth: "230px",
       background: "#FFFFFF",
-      borderRight: "1px solid #EDE0D4",
+      borderRight: "1px solid #EAD0B8",
       height: "100vh",
       position: "sticky", top: 0,
       display: "flex", flexDirection: "column",
@@ -29,14 +29,14 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     }}>
 
       {/* Brand */}
-      <div style={{ padding: "28px 24px 24px", borderBottom: "1px solid #F5EDE5" }}>
+      <div style={{ padding: "28px 24px 24px", borderBottom: "1px solid #F5E8D8" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{
             width: "34px", height: "34px",
-            background: "linear-gradient(135deg, #E8392A, #F97316)",
+            background: "linear-gradient(135deg, #C83820, #E07045)",
             borderRadius: "10px",
             display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 4px 12px rgba(232,57,42,0.3)",
+            boxShadow: "0 4px 12px rgba(200,56,32,0.3)",
           }}>
             <Zap size={17} color="white" fill="white" />
           </div>
@@ -44,12 +44,12 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
             <div style={{
               fontFamily: "var(--font-display)",
               fontSize: "18px", fontWeight: "800",
-              color: "#1A0F0A", letterSpacing: "-0.03em",
+              color: "#1A0805", letterSpacing: "-0.03em",
               lineHeight: 1,
             }}>
-              More<span style={{ color: "#E8392A" }}>.</span>AI
+              More<span style={{ color: "#C83820" }}>.</span>AI
             </div>
-            <div style={{ fontSize: "10px", color: "#9B7B6B", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <div style={{ fontSize: "10px", color: "#9B7060", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase" }}>
               by Selmore
             </div>
           </div>
@@ -58,7 +58,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
 
       {/* Nav */}
       <nav style={{ flex: 1, padding: "20px 14px", display: "flex", flexDirection: "column", gap: "4px" }}>
-        <div style={{ fontSize: "10px", fontWeight: "700", color: "#C4A99A", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0 10px", marginBottom: "8px" }}>
+        <div style={{ fontSize: "10px", fontWeight: "700", color: "#9B7060", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0 10px", marginBottom: "8px" }}>
           Navigatie
         </div>
         {navItems.map((item) => {
@@ -74,13 +74,13 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 padding: "10px 10px",
                 display: "flex", alignItems: "center", gap: "12px",
                 background: isActive ? item.color : "transparent",
-                color: isActive ? "white" : "#5C4033",
+                color: isActive ? "white" : "#5C3020",
                 transition: "all 0.2s ease",
               }}
             >
               <div style={{
                 width: "32px", height: "32px",
-                background: isActive ? "rgba(255,255,255,0.2)" : item.color + "15",
+                background: isActive ? "rgba(255,255,255,0.2)" : item.color + "18",
                 borderRadius: "8px",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0,
@@ -102,12 +102,12 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
       </nav>
 
       {/* Live indicator */}
-      <div style={{ padding: "16px 24px", borderTop: "1px solid #F5EDE5" }}>
+      <div style={{ padding: "16px 24px", borderTop: "1px solid #F5E8D8" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "4px" }}>
           <div className="pulse-dot" style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E", flexShrink: 0 }} />
-          <span style={{ fontSize: "11px", fontWeight: "600", color: "#5C4033" }}>Live bijgewerkt</span>
+          <span style={{ fontSize: "11px", fontWeight: "600", color: "#5C3020" }}>Live bijgewerkt</span>
         </div>
-        <div style={{ fontSize: "10px", color: "#C4A99A" }}>Amsterdam · Selmore Agency</div>
+        <div style={{ fontSize: "10px", color: "#9B7060" }}>Amsterdam · Selmore Agency</div>
       </div>
     </aside>
   );

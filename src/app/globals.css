@@ -4,23 +4,24 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #FDF8F3;
+  /* Kleuren gebaseerd op de globe afbeelding */
+  --bg:        #F8F0E8;      /* Warm linnen — globe achtergrond */
   --bg-card:   #FFFFFF;
-  --bg-hover:  #FFF5EE;
-  --red:       #E8392A;
-  --orange:    #F97316;
-  --amber:     #F59E0B;
+  --bg-hover:  #FFF0E4;
+  --red:       #C83820;      /* Diep koraalrood — globe oppervlak */
+  --orange:    #E07045;      /* Warm zalmoranje — globe middentonen */
+  --amber:     #D09828;      /* Goudgeel — netwerk lijnen op globe */
   --violet:    #7C3AED;
   --teal:      #0D9488;
   --blue:      #2563EB;
   --pink:      #EC4899;
-  --text:      #1A0F0A;
-  --text-2:    #5C4033;
-  --text-3:    #9B7B6B;
-  --border:    #EDE0D4;
-  --border-2:  #F5EDE5;
-  --shadow:    0 1px 3px rgba(100,50,20,0.06), 0 4px 16px rgba(100,50,20,0.06);
-  --shadow-lg: 0 2px 8px rgba(100,50,20,0.08), 0 12px 40px rgba(100,50,20,0.1);
+  --text:      #1A0805;      /* Diep warm bruin-zwart */
+  --text-2:    #5C3020;      /* Medium warm bruin */
+  --text-3:    #9B7060;      /* Licht warm bruin */
+  --border:    #EAD0B8;      /* Warme rand */
+  --border-2:  #F5E8D8;      /* Lichte warme rand */
+  --shadow:    0 1px 3px rgba(100,40,15,0.06), 0 4px 16px rgba(100,40,15,0.06);
+  --shadow-lg: 0 2px 8px rgba(100,40,15,0.08), 0 12px 40px rgba(100,40,15,0.10);
   --font-display: 'Syne', sans-serif;
   --font-body: 'DM Sans', sans-serif;
 }
@@ -35,7 +36,7 @@ body {
   line-height: 1.5;
 }
 
-::selection { background: #E8392A; color: white; }
+::selection { background: #C83820; color: white; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -90,7 +91,7 @@ body {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--red), var(--orange));
+  background: linear-gradient(135deg, #C83820, #E07045);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
