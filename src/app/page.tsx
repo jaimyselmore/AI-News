@@ -10,7 +10,7 @@ import TipsSection from "@/components/TipsSection";
 import LoadingScreen from "@/components/LoadingScreen";
 import UploadSection from "@/components/UploadSection";
 import { newsItems, type NewsItem } from "@/lib/data";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
@@ -22,10 +22,11 @@ const sectionMeta: Record<Section, { title: string; sub: string; accent: string 
 };
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<Section>("nieuws");
+  const [activeSection, setActiveSection] = useState<Section | null>(null);
   const [liveNews, setLiveNews] = useState<NewsItem[]>(newsItems);
-  const [scrolled, setScrolled] = useState(false);
-  const meta = sectionMeta[activeSection];
+
+  const panelOpen = activeSection !== null;
+  const meta = activeSection ? sectionMeta[activeSection] : sectionMeta["nieuws"];
 
   useEffect(() => {
     fetch("/api/news")
@@ -36,152 +37,178 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollToContent = () => {
-    document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const openSection = (section: Section) => setActiveSection(section);
+  const closePanel  = () => setActiveSection(null);
 
   return (
     <>
       <LoadingScreen />
-      <TopNav activeSection={activeSection} onSectionChange={setActiveSection} scrolled={scrolled} />
 
-      {/* ─── HERO ─────────────────────────────────────────────── */}
-      <section style={{
-        position: "relative",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-      }}>
-
-        {/* Video achtergrond */}
+      {/* ── Vaste video achtergrond — altijd zichtbaar ── */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
         <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: 0,
-          }}
+          autoPlay muted loop playsInline
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
           <source src="/globe-video.mp4" type="video/mp4" />
         </video>
-
-        {/* Gradient overlay — donkert randen, verlicht midden */}
+        {/* Vignette overlay */}
         <div style={{
-          position: "absolute",
-          inset: 0,
+          position: "absolute", inset: 0,
           background: [
-            "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(10,5,3,0.08) 0%, rgba(10,5,3,0.0) 40%, rgba(10,5,3,0.62) 100%)",
-            "linear-gradient(to bottom, rgba(10,5,3,0.42) 0%, rgba(10,5,3,0.0) 30%, rgba(10,5,3,0.0) 60%, rgba(10,5,3,0.75) 100%)",
+            "radial-gradient(ellipse 72% 72% at 50% 50%, transparent 28%, rgba(8,4,2,0.52) 100%)",
+            "linear-gradient(to bottom, rgba(8,4,2,0.38) 0%, transparent 22%, transparent 62%, rgba(8,4,2,0.68) 100%)",
           ].join(", "),
-          zIndex: 1,
         }} />
+      </div>
 
-        {/* Headline */}
-        <div style={{
-          position: "relative",
-          zIndex: 2,
+      {/* ── TopNav ── */}
+      <TopNav
+        activeSection={activeSection ?? "nieuws"}
+        onSectionChange={openSection}
+        panelOpen={panelOpen}
+      />
+
+      {/* ── Hero headline — vervaagt als panel open gaat ── */}
+      <div style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 2,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        pointerEvents: panelOpen ? "none" : "all",
+        opacity: panelOpen ? 0 : 1,
+        transition: "opacity 0.38s ease",
+        userSelect: "none",
+      }}>
+        <h1 style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "clamp(82px, 15vw, 174px)",
+          fontWeight: "800",
+          color: "white",
+          letterSpacing: "-0.055em",
+          lineHeight: 0.87,
+          textShadow: "0 2px 64px rgba(0,0,0,0.20)",
           textAlign: "center",
-          userSelect: "none",
         }}>
-          <h1 style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(80px, 15vw, 172px)",
-            fontWeight: "800",
-            color: "white",
-            letterSpacing: "-0.055em",
-            lineHeight: 0.88,
-            textShadow: "0 2px 60px rgba(0,0,0,0.22)",
-          }}>
-            MORE<span style={{ color: "#C83820" }}>.</span>AI
-          </h1>
-          <p style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "clamp(11px, 1.4vw, 15px)",
-            color: "rgba(255,255,255,0.55)",
-            fontWeight: "400",
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            marginTop: "22px",
-          }}>
-            by Selmore · Amsterdam
-          </p>
-        </div>
+          MORE<span style={{ color: "#C83820" }}>.</span>AI
+        </h1>
 
-        {/* Scroll cue */}
+        <p style={{
+          fontFamily: "var(--font-body)",
+          fontSize: "clamp(11px, 1.35vw, 15px)",
+          color: "rgba(255,255,255,0.5)",
+          letterSpacing: "0.26em",
+          textTransform: "uppercase",
+          marginTop: "22px",
+        }}>
+          by Selmore · Amsterdam
+        </p>
+
+        {/* Scroll-cue knop */}
         <button
-          onClick={scrollToContent}
-          aria-label="Scroll naar nieuws"
+          onClick={() => openSection("nieuws")}
           style={{
-            position: "absolute",
-            bottom: "40px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "6px",
+            marginTop: "52px",
             background: "none",
             border: "none",
             cursor: "pointer",
-            opacity: scrolled ? 0 : 1,
-            transition: "opacity 0.3s ease",
-            pointerEvents: scrolled ? "none" : "all",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "7px",
           }}
         >
-          <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.4)", letterSpacing: "0.18em", textTransform: "uppercase" }}>
+          <span style={{
+            fontSize: "9px",
+            color: "rgba(255,255,255,0.4)",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+          }}>
             Nieuws
           </span>
           <ChevronDown size={15} color="rgba(255,255,255,0.4)" className="bounce-down" />
         </button>
-      </section>
+      </div>
 
-      {/* ─── TICKER ───────────────────────────────────────────── */}
-      <NewsTicker items={liveNews} />
-
-      {/* ─── CONTENT ──────────────────────────────────────────── */}
-      <section id="content-section" style={{
-        minHeight: "100vh",
-        background: "#FDF8F3",
-        padding: "52px 48px 80px",
+      {/* ── Content panel — schuift omhoog over de video ── */}
+      <div style={{
+        position: "fixed",
+        top: "68px",
+        left: 0, right: 0, bottom: 0,
+        zIndex: 50,
+        /* Glas-effect: video schijnt door */
+        background: "rgba(253,248,243,0.91)",
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+        borderTop: "1px solid rgba(234,208,184,0.4)",
+        transform: panelOpen ? "translateY(0)" : "translateY(100%)",
+        transition: "transform 0.52s cubic-bezier(0.22,1,0.36,1)",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
       }}>
-        <div style={{ marginBottom: "32px" }} className="fade-up">
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <div style={{ width: "4px", height: "22px", background: meta.accent, borderRadius: "2px" }} />
-            <h2 style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "22px",
-              fontWeight: "800",
-              color: "#1A0F0A",
-              letterSpacing: "-0.03em",
-            }}>
-              {meta.title}
-            </h2>
-          </div>
-          <p style={{ fontSize: "13px", color: "#9B7B6B", paddingLeft: "14px" }}>
-            {meta.sub}
-          </p>
-        </div>
 
-        {activeSection === "nieuws" && <><FeaturedNews items={liveNews} /><NewsGrid items={liveNews} /></>}
-        {activeSection === "tips"   && <TipsSection />}
-        {activeSection === "tools"  && <ToolsSection />}
-        {activeSection === "upload" && <UploadSection />}
-      </section>
+        {/* Ticker */}
+        <NewsTicker items={liveNews} />
+
+        {/* Scrollbare content */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "40px 48px 100px" }}>
+
+          {/* Header rij */}
+          <div style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            marginBottom: "30px",
+          }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                <div style={{ width: "4px", height: "22px", background: meta.accent, borderRadius: "2px" }} />
+                <h2 style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "22px", fontWeight: "800",
+                  color: "#1A0F0A", letterSpacing: "-0.03em",
+                }}>
+                  {meta.title}
+                </h2>
+              </div>
+              <p style={{ fontSize: "13px", color: "#9B7B6B", paddingLeft: "14px" }}>
+                {meta.sub}
+              </p>
+            </div>
+
+            {/* Sluit-knop */}
+            <button
+              onClick={closePanel}
+              aria-label="Sluiten"
+              style={{
+                width: "40px", height: "40px",
+                borderRadius: "50%",
+                border: "1px solid #EAD0B8",
+                background: "white",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer",
+                color: "#5C3020",
+                flexShrink: 0,
+                boxShadow: "0 1px 4px rgba(100,40,15,0.08)",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "#FFF0E4"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "white"; }}
+            >
+              <X size={15} strokeWidth={2.2} />
+            </button>
+          </div>
+
+          {/* Secties */}
+          {activeSection === "nieuws" && <><FeaturedNews items={liveNews} /><NewsGrid items={liveNews} /></>}
+          {activeSection === "tips"   && <TipsSection />}
+          {activeSection === "tools"  && <ToolsSection />}
+          {activeSection === "upload" && <UploadSection />}
+        </div>
+      </div>
     </>
   );
 }
