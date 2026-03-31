@@ -1,20 +1,30 @@
-import { newsItems, type NewsItem } from "@/lib/data";
+import type { NewsItem } from "@/lib/data";
 import { Clock, ArrowUpRight } from "lucide-react";
 
 const tagStyle: Record<string, { bg: string; color: string }> = {
-  BREAKING:   { bg: "#FEE2E2", color: "#B91C1C" },
-  UPDATE:     { bg: "#FEF3C7", color: "#92400E" },
-  TOOLS:      { bg: "#EDE9FE", color: "#5B21B6" },
-  AI:         { bg: "#DBEAFE", color: "#1D4ED8" },
-  VIDEO:      { bg: "#FCE7F3", color: "#9D174D" },
-  AUDIO:      { bg: "#CCFBF1", color: "#0F766E" },
-  REGELGEVING:{ bg: "#FEF9C3", color: "#713F12" },
+  BREAKING:    { bg: "#FEE2E2", color: "#B91C1C" },
+  UPDATE:      { bg: "#FEF3C7", color: "#92400E" },
+  TOOLS:       { bg: "#EDE9FE", color: "#5B21B6" },
+  AI:          { bg: "#DBEAFE", color: "#1D4ED8" },
+  VIDEO:       { bg: "#FCE7F3", color: "#9D174D" },
+  AUDIO:       { bg: "#CCFBF1", color: "#0F766E" },
+  REGELGEVING: { bg: "#FEF9C3", color: "#713F12" },
 };
 
 function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
   const t = tagStyle[item.tag] ?? { bg: "#F3F4F6", color: "#374151" };
   return (
-    <div className="card fade-up" style={{ animationDelay: `${delay}s`, opacity: 0, padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+    <a
+      href={item.url ?? '#'}
+      target={item.url ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      className="card fade-up"
+      style={{
+        animationDelay: `${delay}s`, opacity: 0,
+        padding: "20px", display: "flex", flexDirection: "column", gap: "12px",
+        textDecoration: "none", color: "inherit", cursor: "pointer",
+      }}
+    >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span style={{
           background: t.bg, color: t.color,
@@ -46,12 +56,12 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
         <span style={{ fontSize: "11px", color: "#C4A99A" }}>{item.readTime} min</span>
         <span style={{ fontSize: "11px", color: "#C4A99A", marginLeft: "auto" }}>{item.source}</span>
       </div>
-    </div>
+    </a>
   );
 }
 
-export default function NewsGrid() {
-  const rest = newsItems.filter(n => !n.featured);
+export default function NewsGrid({ items }: { items: NewsItem[] }) {
+  const rest = items.filter(n => !n.featured);
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px" }}>

@@ -96,6 +96,24 @@ body {
   background-clip: text;
 }
 
+/* Loading screen — orbital ring pulse */
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.72; }
+}
+.orbit-ring-1 { animation: ringPulse 2.4s ease-in-out infinite; }
+.orbit-ring-2 { animation: ringPulse 2.4s ease-in-out 0.8s infinite; }
+.orbit-ring-3 { animation: ringPulse 2.4s ease-in-out 1.6s infinite; }
+
+/* Loading screen — sparkle twinkle */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.85; }
+}
+.sparkle { animation: twinkle 1.8s ease-in-out infinite; }
+.sparkle-2 { animation: twinkle 1.8s ease-in-out 0.6s infinite; }
+.sparkle-3 { animation: twinkle 1.8s ease-in-out 1.2s infinite; }
+
 /* Nav active */
 .nav-item {
   border-radius: 10px;

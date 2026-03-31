@@ -1,9 +1,9 @@
 "use client";
-import { newsItems } from "@/lib/data";
+import type { NewsItem } from "@/lib/data";
 
-export default function NewsTicker() {
-  const items = newsItems.map(n => `${n.tag}  ${n.title}`);
-  const doubled = [...items, ...items];
+export default function NewsTicker({ items }: { items: NewsItem[] }) {
+  const tickerItems = items.map(n => `${n.tag}  ${n.title}`);
+  const doubled = [...tickerItems, ...tickerItems];
 
   return (
     <div style={{

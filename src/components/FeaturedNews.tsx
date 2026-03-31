@@ -1,8 +1,9 @@
-import { newsItems } from "@/lib/data";
+import type { NewsItem } from "@/lib/data";
 import { Clock, ArrowRight, Sparkles } from "lucide-react";
 
-export default function FeaturedNews() {
-  const featured = newsItems.find(n => n.featured) ?? newsItems[0];
+export default function FeaturedNews({ items }: { items: NewsItem[] }) {
+  const featured = items.find(n => n.featured) ?? items[0];
+  if (!featured) return null;
 
   return (
     <div className="fade-up delay-1" style={{
@@ -14,7 +15,7 @@ export default function FeaturedNews() {
       overflow: "hidden",
       marginBottom: "28px",
     }}>
-      {/* Decorative circle */}
+      {/* Decoratieve cirkels */}
       <div style={{
         position: "absolute", top: "-80px", right: "-80px",
         width: "280px", height: "280px",
@@ -52,7 +53,7 @@ export default function FeaturedNews() {
         </span>
       </div>
 
-      {/* Title */}
+      {/* Titel */}
       <h1 style={{
         fontFamily: "var(--font-display)",
         fontSize: "clamp(22px, 2.8vw, 34px)",
@@ -66,7 +67,7 @@ export default function FeaturedNews() {
         {featured.title}
       </h1>
 
-      {/* Summary */}
+      {/* Samenvatting */}
       <p style={{
         fontSize: "15px", lineHeight: "1.7",
         color: "#5C4033", marginBottom: "24px", maxWidth: "580px",
@@ -82,23 +83,29 @@ export default function FeaturedNews() {
         </div>
         <span style={{ fontSize: "12px", color: "#9B7B6B" }}>—</span>
         <span style={{ fontSize: "12px", color: "#9B7B6B", fontWeight: "500" }}>{featured.source}</span>
-        <button style={{
-          marginLeft: "auto",
-          display: "flex", alignItems: "center", gap: "8px",
-          background: "#E8392A", color: "white",
-          border: "none", borderRadius: "100px",
-          padding: "11px 22px",
-          fontFamily: "var(--font-display)",
-          fontSize: "13px", fontWeight: "700",
-          cursor: "pointer",
-          boxShadow: "0 4px 16px rgba(232,57,42,0.35)",
-          transition: "transform 0.2s, box-shadow 0.2s",
-        }}
-          onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(232,57,42,0.4)"; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(232,57,42,0.35)"; }}
-        >
-          Lees artikel <ArrowRight size={14} />
-        </button>
+        {featured.url && (
+          <a
+            href={featured.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              marginLeft: "auto",
+              display: "flex", alignItems: "center", gap: "8px",
+              background: "#E8392A", color: "white",
+              border: "none", borderRadius: "100px",
+              padding: "11px 22px",
+              fontFamily: "var(--font-display)",
+              fontSize: "13px", fontWeight: "700",
+              cursor: "pointer", textDecoration: "none",
+              boxShadow: "0 4px 16px rgba(232,57,42,0.35)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(232,57,42,0.4)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(232,57,42,0.35)"; }}
+          >
+            Lees artikel <ArrowRight size={14} />
+          </a>
+        )}
       </div>
     </div>
   );
