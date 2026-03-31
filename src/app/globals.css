@@ -135,3 +135,13 @@ body {
 }
 .nav-item:hover { background: var(--bg-hover); }
 .nav-item.active { background: var(--red); }
+
+/* Scroll cue bounce */
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
+.bounce-down { animation: bounceDown 1.6s ease-in-out infinite; }
+
+/* Hero video — make sure body doesn't show background behind it */
+body { background: #0A0503; }
