@@ -2,15 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "More AI — Selmore",
+  title: "MORE.AI",
   description: "Curated AI nieuws, tools en tips voor Selmore creative agency Amsterdam.",
-  icons: {
-    icon: "/globe-favicon.png",
-    shortcut: "/globe-favicon.png",
-    apple: "/globe-favicon.png",
-  },
   openGraph: {
-    title: "More AI — Selmore",
+    title: "MORE.AI",
     description: "Curated AI nieuws, tools en tips voor Selmore creative agency Amsterdam.",
     type: "website",
   },

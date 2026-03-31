@@ -7,10 +7,10 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
 
   return (
     <div style={{
-      background: "rgba(255,255,255,0.08)",
-      backdropFilter: "blur(28px)",
-      WebkitBackdropFilter: "blur(28px)",
-      border: "1px solid rgba(255,255,255,0.14)",
+      background: "rgba(28,12,5,0.62)",
+      backdropFilter: "blur(30px)",
+      WebkitBackdropFilter: "blur(30px)",
+      border: "1px solid rgba(255,200,160,0.14)",
       borderRadius: "24px",
       padding: "40px 44px",
       position: "relative",
