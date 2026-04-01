@@ -25,6 +25,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("nieuws");
   const [liveNews, setLiveNews] = useState<NewsItem[]>(newsItems);
   const [scrolled, setScrolled] = useState(false);
+  const [blurOpacity, setBlurOpacity] = useState(0);
   const meta = sectionMeta[activeSection];
 
   useEffect(() => {
@@ -37,21 +38,22 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => {
+      const vh = window.innerHeight;
+      // Blur begint op 65% van hero hoogte, volledig vaag op 100%
+      const progress = Math.min(Math.max((window.scrollY - vh * 0.65) / (vh * 0.35), 0), 1);
+      setBlurOpacity(progress);
+      setScrolled(window.scrollY > 80);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
 
   const handleSectionChange = (section: Section) => {
     setActiveSection(section);
     setTimeout(() => {
       document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" });
     }, 60);
-  };
-
-  const scrollToContent = () => {
-    document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -66,15 +68,26 @@ export default function Home() {
         >
           <source src="/globe-video.mp4" type="video/mp4" />
         </video>
-        {/* Vignette zodat tekst leesbaar is */}
         <div style={{
           position: "absolute", inset: 0,
           background: [
-            "radial-gradient(ellipse 75% 75% at 50% 50%, transparent 30%, rgba(8,4,2,0.28) 100%)",
-            "linear-gradient(to bottom, rgba(8,4,2,0.22) 0%, transparent 25%, transparent 62%, rgba(8,4,2,0.42) 100%)",
+            "radial-gradient(ellipse 75% 75% at 50% 50%, transparent 30%, rgba(6,3,1,0.22) 100%)",
+            "linear-gradient(to bottom, rgba(6,3,1,0.18) 0%, transparent 28%, transparent 65%, rgba(6,3,1,0.35) 100%)",
           ].join(", "),
         }} />
       </div>
+
+      {/* ── Blur laag: wordt zichtbaar zodra je de hero uit scrolt ── */}
+      <div style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 3,
+        backdropFilter: "blur(54px) saturate(1.25)",
+        WebkitBackdropFilter: "blur(54px) saturate(1.25)",
+        opacity: blurOpacity,
+        transition: "opacity 0.12s linear",
+        pointerEvents: "none",
+      }} />
 
       {/* ── TopNav ── */}
       <TopNav
@@ -83,7 +96,7 @@ export default function Home() {
         scrolled={scrolled}
       />
 
-      {/* ── Hero: 100vh, MORE.AI tekst ── */}
+      {/* ── Hero ── */}
       <section style={{
         position: "relative",
         height: "100vh",
@@ -116,10 +129,8 @@ export default function Home() {
         }}>
           by Selmore · Amsterdam
         </p>
-
-        {/* Scroll cue */}
         <button
-          onClick={scrollToContent}
+          onClick={() => document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" })}
           style={{
             marginTop: "52px",
             background: "none", border: "none",
@@ -130,35 +141,28 @@ export default function Home() {
             transition: "opacity 0.3s ease",
           }}
         >
-          <span style={{
-            fontSize: "9px",
-            color: "rgba(255,255,255,0.38)",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-          }}>
+          <span style={{ fontSize: "9px", color: "rgba(255,255,255,0.38)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
             Nieuws
           </span>
           <ChevronDown size={15} color="rgba(255,255,255,0.38)" className="bounce-down" />
         </button>
       </section>
 
-      {/* ── Ticker: sticky onder de nav zodra je scrolt ── */}
+      {/* ── Ticker ── */}
       <div style={{ position: "relative", zIndex: 10 }}>
         <NewsTicker items={liveNews} />
       </div>
 
-      {/* ── Content: zweeft over de video ── */}
+      {/* ── Content: boven de blur laag ── */}
       <section
         id="content-section"
         style={{
           position: "relative",
-          zIndex: 2,
+          zIndex: 4,
           minHeight: "100vh",
           padding: "52px 48px 100px",
-          /* Geen achtergrond — cards hebben hun eigen glas-effect */
         }}
       >
-        {/* Sectie header */}
         <div style={{ marginBottom: "28px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
             <div style={{ width: "4px", height: "22px", background: meta.accent, borderRadius: "2px" }} />
@@ -167,12 +171,12 @@ export default function Home() {
               fontSize: "22px", fontWeight: "800",
               color: "white",
               letterSpacing: "-0.03em",
-              textShadow: "0 1px 14px rgba(0,0,0,0.25)",
+              textShadow: "0 1px 12px rgba(0,0,0,0.2)",
             }}>
               {meta.title}
             </h2>
           </div>
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", paddingLeft: "14px" }}>
+          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", paddingLeft: "14px" }}>
             {meta.sub}
           </p>
         </div>
