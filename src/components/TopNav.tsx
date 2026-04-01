@@ -40,10 +40,10 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 28px",
-        background: "rgba(240,212,190,0.92)",
+        background: "rgba(246,241,231,0.94)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(200,140,100,0.18)",
+        borderBottom: "1px solid rgba(180,160,130,0.15)",
       }}>
         {/* Globe + brand */}
         <div style={{ display: "flex", alignItems: "center", gap: "11px" }}>

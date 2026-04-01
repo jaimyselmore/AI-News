@@ -159,5 +159,5 @@ body {
 }
 .bounce-down { animation: bounceDown 1.6s ease-in-out infinite; }
 
-/* Achtergrond matcht de warme gloed van de globe video */
-body { background: #F0D4BE; }
+/* Achtergrond matcht de exacte globe achtergrondkleur */
+body { background: #F6F1E7; }
