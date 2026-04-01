@@ -1,35 +1,43 @@
 /**
- * Vertaal teksten naar Nederlands via de DeepL Free API.
- * Zet DEEPL_API_KEY in .env.local (en Vercel env vars).
- * Zonder key worden de originele teksten teruggegeven.
+ * Vertaal teksten naar Nederlands via MyMemory (gratis, geen creditcard).
+ * Optioneel: zet MYMEMORY_EMAIL in Vercel env vars voor hogere limiet
+ * (50.000 tekens/dag met email vs 5.000/dag zonder).
  *
- * Gratis DeepL key: https://www.deepl.com/pro#developer
+ * Zonder email werkt het gewoon — voor een nieuwssite ruim voldoende.
  */
 export async function translateToNL(texts: string[]): Promise<string[]> {
-  const apiKey = process.env.DEEPL_API_KEY;
-  if (!apiKey || texts.length === 0) return texts;
+  if (texts.length === 0) return texts;
+
+  const email = process.env.MYMEMORY_EMAIL ?? '';
 
   try {
-    const res = await fetch('https://api-free.deepl.com/v2/translate', {
-      method: 'POST',
-      headers: {
-        'Authorization': `DeepL-Auth-Key ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: texts, target_lang: 'NL' }),
-      // Cache vertalingen 1 week — elk uniek stuk tekst wordt maar 1x vertaald
-      next: { revalidate: 604800 },
-    });
+    const results = await Promise.all(
+      texts.map(async (text) => {
+        if (!text || text.trim().length === 0) return text;
 
-    if (!res.ok) {
-      console.warn('[DeepL] vertaling mislukt:', res.status);
-      return texts;
-    }
+        const url = new URL('https://api.mymemory.translated.net/get');
+        url.searchParams.set('q', text.slice(0, 500)); // max 500 tekens per request
+        url.searchParams.set('langpair', 'en|nl');
+        if (email) url.searchParams.set('de', email);
 
-    const data = await res.json();
-    return (data.translations as { text: string }[]).map(t => t.text);
+        const res = await fetch(url.toString(), {
+          next: { revalidate: 604800 }, // cache 1 week per unieke tekst
+        });
+
+        if (!res.ok) return text;
+
+        const data = await res.json();
+        const translated: string = data?.responseData?.translatedText;
+
+        // MyMemory geeft soms de originele tekst terug als vertaling mislukt
+        if (!translated || translated === text) return text;
+        return translated;
+      })
+    );
+
+    return results;
   } catch (err) {
-    console.warn('[DeepL] fout:', err);
+    console.warn('[MyMemory] vertaling mislukt, originele tekst gebruikt:', err);
     return texts;
   }
 }
