@@ -7,24 +7,27 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
 
   return (
     <div style={{
-      height: "38px", overflow: "hidden",
+      height: "36px", overflow: "hidden",
       display: "flex", alignItems: "center",
-      background: "linear-gradient(90deg, #C83820, #E07045)",
+      background: "rgba(255,255,255,0.10)",
+      backdropFilter: "blur(16px)",
+      WebkitBackdropFilter: "blur(16px)",
+      borderTop: "1px solid rgba(255,255,255,0.12)",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
       position: "relative",
     }}>
       <div style={{
-        background: "rgba(0,0,0,0.15)",
         padding: "0 16px",
         height: "100%",
         display: "flex", alignItems: "center",
         minWidth: "max-content",
-        backdropFilter: "blur(4px)",
+        borderRight: "1px solid rgba(255,255,255,0.12)",
       }}>
         <span style={{
           fontFamily: "var(--font-display)",
-          fontSize: "10px", fontWeight: "800",
-          letterSpacing: "0.12em", textTransform: "uppercase",
-          color: "white",
+          fontSize: "9px", fontWeight: "800",
+          letterSpacing: "0.14em", textTransform: "uppercase",
+          color: "#FF9070",
         }}>
           LIVE
         </span>
@@ -33,13 +36,12 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
         <div className="ticker-inner">
           {doubled.map((headline, i) => (
             <span key={i} style={{
-              fontSize: "11px", fontWeight: "600",
-              color: "white", padding: "0 28px",
+              fontSize: "11px", fontWeight: "500",
+              color: "rgba(255,255,255,0.75)", padding: "0 28px",
               whiteSpace: "nowrap", letterSpacing: "0.01em",
-              opacity: 0.95,
             }}>
               {headline}
-              <span style={{ marginLeft: "28px", opacity: 0.5 }}>·</span>
+              <span style={{ marginLeft: "28px", opacity: 0.35 }}>·</span>
             </span>
           ))}
         </div>

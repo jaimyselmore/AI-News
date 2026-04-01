@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Newspaper, Lightbulb, Wrench, Upload } from "lucide-react";
+import { X, Newspaper, Lightbulb, Wrench, Upload } from "lucide-react";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
@@ -12,10 +12,10 @@ interface TopNavProps {
 }
 
 const navItems = [
-  { id: "nieuws" as Section, label: "Nieuws",        icon: Newspaper, color: "#C83820" },
-  { id: "tips"   as Section, label: "Tips & Tricks", icon: Lightbulb, color: "#D09828" },
-  { id: "tools"  as Section, label: "Alle Tools",    icon: Wrench,    color: "#7C3AED" },
-  { id: "upload" as Section, label: "Upload",        icon: Upload,    color: "#0D9488" },
+  { id: "nieuws" as Section, label: "Nieuws",        icon: Newspaper, color: "#FF9070" },
+  { id: "tips"   as Section, label: "Tips & Tricks", icon: Lightbulb, color: "#FFD070" },
+  { id: "tools"  as Section, label: "Alle Tools",    icon: Wrench,    color: "#C4A8FF" },
+  { id: "upload" as Section, label: "Upload",        icon: Upload,    color: "#60E8D0" },
 ];
 
 export default function TopNav({ activeSection, onSectionChange, scrolled }: TopNavProps) {
@@ -24,6 +24,9 @@ export default function TopNav({ activeSection, onSectionChange, scrolled }: Top
   const handleNav = (section: Section) => {
     onSectionChange(section);
     setMenuOpen(false);
+    setTimeout(() => {
+      document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" });
+    }, 60);
   };
 
   return (
@@ -33,111 +36,117 @@ export default function TopNav({ activeSection, onSectionChange, scrolled }: Top
         position: "fixed",
         top: 0, left: 0, right: 0,
         zIndex: 100,
-        height: "68px",
+        height: "64px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 36px",
-        background: scrolled
-          ? "rgba(253,248,243,0.94)"
-          : "transparent",
+        padding: "0 28px",
+        background: scrolled ? "rgba(255,255,255,0.10)" : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(234,208,184,0.45)" : "none",
-        transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.12)" : "none",
+        transition: "background 0.35s ease, backdrop-filter 0.35s ease",
       }}>
-
         {/* Globe + brand */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "11px" }}>
           <div style={{
-            width: "36px", height: "36px",
+            width: "34px", height: "34px",
             borderRadius: "50%",
             overflow: "hidden",
             flexShrink: 0,
-            boxShadow: scrolled
-              ? "0 0 0 2px rgba(200,56,32,0.2), 0 2px 12px rgba(0,0,0,0.10)"
-              : "0 0 0 2px rgba(255,255,255,0.22), 0 4px 18px rgba(0,0,0,0.22)",
-            transition: "box-shadow 0.4s ease",
+            boxShadow: "0 0 0 1.5px rgba(255,255,255,0.25), 0 4px 16px rgba(0,0,0,0.18)",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/globe.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
-          <div style={{
+          <span style={{
             fontFamily: "var(--font-display)",
-            fontSize: "19px",
+            fontSize: "18px",
             fontWeight: "800",
-            color: scrolled ? "#1A0805" : "white",
+            color: "white",
             letterSpacing: "-0.04em",
-            lineHeight: 1,
-            transition: "color 0.4s ease",
-            textShadow: scrolled ? "none" : "0 2px 14px rgba(0,0,0,0.28)",
+            textShadow: "0 1px 12px rgba(0,0,0,0.25)",
           }}>
-            MORE<span style={{ color: "#C83820" }}>.</span>AI
-          </div>
+            MORE<span style={{ color: "#FF6B4A" }}>.</span>AI
+          </span>
         </div>
 
-        {/* Hamburger */}
+        {/* Hamburger — minimale knop */}
         <button
           onClick={() => setMenuOpen(v => !v)}
           aria-label="Menu"
           style={{
-            background: menuOpen
-              ? "rgba(200,56,32,0.15)"
-              : scrolled ? "rgba(26,8,5,0.06)" : "rgba(255,255,255,0.13)",
-            border: `1px solid ${scrolled ? "rgba(234,208,184,0.65)" : "rgba(255,255,255,0.22)"}`,
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.18)",
             borderRadius: "10px",
-            width: "46px", height: "46px",
+            width: "42px", height: "42px",
             display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer",
-            color: scrolled ? "#1A0805" : "white",
-            transition: "all 0.22s ease",
+            color: "white",
+            flexDirection: "column",
+            gap: "5px",
+            padding: "12px",
+            transition: "background 0.2s ease",
           }}
+          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.20)")}
+          onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
         >
-          {menuOpen
-            ? <X size={18} strokeWidth={2.2} />
-            : <Menu size={18} strokeWidth={2.2} />
-          }
+          {/* 3 lijntjes */}
+          {[0,1,2].map(i => (
+            <span key={i} style={{
+              display: "block",
+              width: "16px", height: "1.5px",
+              background: "white",
+              borderRadius: "2px",
+              transformOrigin: "center",
+              transition: "transform 0.2s ease, opacity 0.2s ease",
+              ...(menuOpen && i === 0 ? { transform: "translateY(6.5px) rotate(45deg)" } : {}),
+              ...(menuOpen && i === 1 ? { opacity: 0 } : {}),
+              ...(menuOpen && i === 2 ? { transform: "translateY(-6.5px) rotate(-45deg)" } : {}),
+            }} />
+          ))}
         </button>
       </nav>
 
-      {/* ── Dim backdrop ── */}
-      <div
-        onClick={() => setMenuOpen(false)}
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 98,
-          background: "rgba(10,5,3,0.52)",
-          backdropFilter: "blur(3px)",
-          WebkitBackdropFilter: "blur(3px)",
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? "all" : "none",
-          transition: "opacity 0.3s ease",
-        }}
-      />
-
-      {/* ── Slide-in drawer ── */}
+      {/* ── Zwevende glazen menu kaart (img9 stijl) ── */}
       <div style={{
         position: "fixed",
-        top: 0, right: 0, bottom: 0,
-        width: "296px",
+        top: "76px",
+        right: "28px",
         zIndex: 101,
-        background: "#FDF8F3",
-        borderLeft: "1px solid #EAD0B8",
-        transform: menuOpen ? "translateX(0)" : "translateX(100%)",
-        transition: "transform 0.42s cubic-bezier(0.22,1,0.36,1)",
-        display: "flex",
-        flexDirection: "column",
-        padding: "92px 28px 36px",
+        width: "260px",
+        background: "rgba(255,255,255,0.14)",
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+        border: "1px solid rgba(255,255,255,0.20)",
+        borderRadius: "22px",
+        padding: "10px 0 16px",
+        transformOrigin: "top right",
+        transform: menuOpen ? "scale(1)" : "scale(0.88)",
+        opacity: menuOpen ? 1 : 0,
+        pointerEvents: menuOpen ? "all" : "none",
+        transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease",
+        boxShadow: "0 12px 48px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(255,255,255,0.08) inset",
       }}>
-        <div style={{
-          fontSize: "10px", fontWeight: "700", color: "#9B7060",
-          letterSpacing: "0.12em", textTransform: "uppercase",
-          marginBottom: "18px", paddingLeft: "4px",
-        }}>
-          Navigatie
+        {/* X sluit knop */}
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "4px 14px 4px" }}>
+          <button
+            onClick={() => setMenuOpen(false)}
+            style={{
+              background: "rgba(255,255,255,0.12)",
+              border: "none",
+              borderRadius: "50%",
+              width: "30px", height: "30px",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer",
+              color: "white",
+            }}
+          >
+            <X size={14} strokeWidth={2.5} />
+          </button>
         </div>
 
+        {/* Nav items */}
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
@@ -148,46 +157,73 @@ export default function TopNav({ activeSection, onSectionChange, scrolled }: Top
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "14px",
-                padding: "13px 16px",
-                borderRadius: "12px",
-                border: "none",
-                background: isActive ? item.color : "transparent",
-                color: isActive ? "white" : "#1A0805",
-                cursor: "pointer",
-                marginBottom: "4px",
-                textAlign: "left",
+                gap: "16px",
                 width: "100%",
-                fontFamily: "var(--font-body)",
-                transition: "background 0.18s ease, color 0.18s ease",
+                padding: "12px 22px",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                textAlign: "left",
+                opacity: isActive ? 1 : 0.72,
+                transition: "opacity 0.18s ease",
               }}
-              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = "#F5EDE4"; }}
-              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = isActive ? "1" : "0.72")}
             >
-              <div style={{
-                width: "36px", height: "36px",
-                background: isActive ? "rgba(255,255,255,0.2)" : item.color + "14",
-                borderRadius: "9px",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0,
+              <Icon
+                size={22}
+                color={isActive ? item.color : "white"}
+                strokeWidth={1.8}
+                style={{ flexShrink: 0 }}
+              />
+              <span style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "17px",
+                fontWeight: "700",
+                color: isActive ? item.color : "white",
+                letterSpacing: "-0.02em",
+                textShadow: isActive ? `0 0 20px ${item.color}88` : "none",
+                transition: "color 0.18s ease",
               }}>
-                <Icon size={15} color={isActive ? "white" : item.color} strokeWidth={2} />
-              </div>
-              <span style={{ fontFamily: "var(--font-display)", fontSize: "14px", fontWeight: "700" }}>
                 {item.label}
               </span>
+              {isActive && (
+                <div style={{
+                  marginLeft: "auto",
+                  width: "6px", height: "6px",
+                  borderRadius: "50%",
+                  background: item.color,
+                  flexShrink: 0,
+                  boxShadow: `0 0 8px ${item.color}`,
+                }} />
+              )}
             </button>
           );
         })}
 
-        <div style={{ marginTop: "auto", paddingTop: "24px", borderTop: "1px solid #F5E8D8" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "4px" }}>
-            <div className="pulse-dot" style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
-            <span style={{ fontSize: "11px", fontWeight: "600", color: "#5C3020" }}>Live bijgewerkt</span>
-          </div>
-          <div style={{ fontSize: "10px", color: "#9B7060" }}>Amsterdam · Selmore Agency</div>
+        {/* Live indicator */}
+        <div style={{
+          margin: "10px 22px 0",
+          paddingTop: "12px",
+          borderTop: "1px solid rgba(255,255,255,0.10)",
+          display: "flex",
+          alignItems: "center",
+          gap: "7px",
+        }}>
+          <div className="pulse-dot" style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ADE80" }} />
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
+            Live · Amsterdam
+          </span>
         </div>
       </div>
+
+      {/* Tap-buiten-sluiten */}
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          style={{ position: "fixed", inset: 0, zIndex: 99 }}
+        />
+      )}
     </>
   );
 }
