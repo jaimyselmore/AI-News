@@ -106,6 +106,7 @@ export default function Home() {
         flexDirection: "column",
         zIndex: 1,
         userSelect: "none",
+        overflow: "hidden",
       }}>
         <h1 style={{
           fontFamily: "var(--font-display)",
@@ -146,12 +147,16 @@ export default function Home() {
           </span>
           <ChevronDown size={15} color="rgba(255,255,255,0.38)" className="bounce-down" />
         </button>
-      </section>
 
-      {/* ── Ticker ── */}
-      <div style={{ position: "relative", zIndex: 10 }}>
-        <NewsTicker items={liveNews} />
-      </div>
+        {/* ── Ticker: onderin de hero, scrolt mee ── */}
+        <div style={{
+          position: "absolute",
+          bottom: "44px",
+          left: 0, right: 0,
+        }}>
+          <NewsTicker items={liveNews} />
+        </div>
+      </section>
 
       {/* ── Content: boven de blur laag ── */}
       <section
