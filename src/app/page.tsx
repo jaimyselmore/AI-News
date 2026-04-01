@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import TopNav from "@/components/TopNav";
 import NewsTicker from "@/components/NewsTicker";
 import FeaturedNews from "@/components/FeaturedNews";
@@ -25,7 +25,6 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("nieuws");
   const [liveNews, setLiveNews] = useState<NewsItem[]>(newsItems);
   const [scrolled, setScrolled] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const meta = sectionMeta[activeSection];
 
   useEffect(() => {
@@ -43,46 +42,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scroll-scrub: video beweegt alleen als je scrollt
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    let raf = 0;
-    let targetTime = 0;
-
-    const scrub = () => {
-      if (video.duration && Math.abs(video.currentTime - targetTime) > 0.008) {
-        // Smooth inhalen: 12% per frame (60fps ≈ vloeiend)
-        video.currentTime += (targetTime - video.currentTime) * 0.12;
-      }
-      raf = requestAnimationFrame(scrub);
-    };
-
-    const onScroll = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
-      targetTime = progress * (video.duration || 5);
-    };
-
-    const setup = () => {
-      video.pause();
-      video.currentTime = 0;
-      raf = requestAnimationFrame(scrub);
-    };
-
-    if (video.readyState >= 1) {
-      setup();
-    } else {
-      video.addEventListener("loadedmetadata", setup, { once: true });
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
 
   const handleSectionChange = (section: Section) => {
     setActiveSection(section);
@@ -102,10 +61,7 @@ export default function Home() {
       {/* ── Video: altijd vast op achtergrond ── */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
         <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="auto"
+          autoPlay muted loop playsInline
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
           <source src="/globe-video.mp4" type="video/mp4" />
