@@ -95,9 +95,10 @@ export default function Home() {
         onSectionChange={handleSectionChange}
       />
 
-      {/* ── Hero ── */}
+      {/* ── Hero: sticky zodat content eroverheen scrolt ── */}
       <section style={{
-        position: "relative",
+        position: "sticky",
+        top: 0,
         height: "100vh",
         display: "flex",
         alignItems: "center",
