@@ -27,7 +27,7 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
           fontFamily: "var(--font-display)",
           fontSize: "9px", fontWeight: "800",
           letterSpacing: "0.14em", textTransform: "uppercase",
-          color: "#FF9070",
+          color: "#C83820",
         }}>
           LIVE
         </span>

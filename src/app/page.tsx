@@ -93,7 +93,6 @@ export default function Home() {
       <TopNav
         activeSection={activeSection}
         onSectionChange={handleSectionChange}
-        scrolled={scrolled}
       />
 
       {/* ── Hero ── */}
