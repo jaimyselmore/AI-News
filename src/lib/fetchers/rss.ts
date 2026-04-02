@@ -38,7 +38,7 @@ function extractXml(block: string, tag: string): string {
 async function parseFeed(url: string, source: string) {
   try {
     const xml = await fetch(url, { next: { revalidate: 21600 } }).then(r => r.text());
-    const items: { title: string; description: string; url: string; date: string; source: string }[] = [];
+    const items: { title: string; description: string; url: string; date: string; source: string; image?: string }[] = [];
     const re = /<(?:item|entry)>([\s\S]*?)<\/(?:item|entry)>/g;
     let m;
 
@@ -55,6 +55,16 @@ async function parseFeed(url: string, source: string) {
       const link = extractXml(b, 'link') || (b.match(/href="([^"]+)"/) ?? [])[1] || '';
       const pubDate = extractXml(b, 'pubDate') || extractXml(b, 'published') || extractXml(b, 'updated');
 
+      // Extraheer afbeelding uit media:content, enclosure of img-tag in content
+      const imgMatch =
+        b.match(/media:content[^>]*url="([^"]+)"[^>]*(?:medium="image"|type="image[^"]*")/) ||
+        b.match(/media:thumbnail[^>]*url="([^"]+)"/) ||
+        b.match(/enclosure[^>]*url="([^"]+)"[^>]*type="image/) ||
+        b.match(/media:content[^>]*url="([^"]*\.(?:jpg|jpeg|png|webp)[^"]*)"/) ||
+        b.match(/<img[^>]+src="(https?:[^"]+\.(?:jpg|jpeg|png|webp)[^"]*)"/) ||
+        null;
+      const image = imgMatch ? imgMatch[1] : undefined;
+
       if (title) {
         items.push({
           title,
@@ -64,6 +74,7 @@ async function parseFeed(url: string, source: string) {
             ? new Date(pubDate).toISOString().split('T')[0]
             : new Date().toISOString().split('T')[0],
           source,
+          image,
         });
       }
     }

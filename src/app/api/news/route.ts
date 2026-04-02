@@ -69,6 +69,7 @@ export async function GET() {
       readTime: Math.max(2, Math.floor(item.title.length / 40)),
       source:   item.source,
       url:      item.url,
+      image:    item.image,
       featured: i === 0,
     }));
 
