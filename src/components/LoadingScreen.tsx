@@ -86,7 +86,7 @@ export default function LoadingScreen() {
       {/* ── Brand text ── */}
       <div style={{
         position: "absolute",
-        top: "calc(50% + 188px)", left: "50%",
+        top: "calc(50% + 208px)", left: "50%",
         transform: "translateX(-50%)",
         textAlign: "center", whiteSpace: "nowrap",
         pointerEvents: "none",

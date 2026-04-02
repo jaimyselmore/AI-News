@@ -108,13 +108,13 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         top: "76px",
         right: "28px",
         zIndex: 101,
-        width: "240px",
+        width: "200px",
         background: "rgba(245,237,235,0.97)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
         border: "1px solid rgba(180,150,140,0.18)",
-        borderRadius: "20px",
-        padding: "0 0 12px",
+        borderRadius: "16px",
+        padding: "0 0 6px",
         transformOrigin: "top right",
         transform: menuOpen ? "scale(1)" : "scale(0.88)",
         opacity: menuOpen ? 1 : 0,
@@ -123,7 +123,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         boxShadow: "0 8px 32px rgba(100,40,20,0.12), 0 1px 0 rgba(255,255,255,0.8) inset",
       }}>
         {/* X sluit knop */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px 12px 2px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "8px 10px 2px" }}>
           <button
             onClick={() => setMenuOpen(false)}
             style={{
@@ -151,9 +151,9 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "14px",
+                gap: "12px",
                 width: "100%",
-                padding: "11px 20px",
+                padding: "8px 16px",
                 background: isActive ? `${item.accent}10` : "none",
                 border: "none",
                 cursor: "pointer",
