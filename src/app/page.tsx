@@ -65,10 +65,7 @@ export default function Home() {
         </video>
         <div style={{
           position: "absolute", inset: 0,
-          background: [
-            "radial-gradient(ellipse 75% 75% at 50% 50%, transparent 30%, rgba(6,3,1,0.22) 100%)",
-            "linear-gradient(to bottom, rgba(6,3,1,0.18) 0%, transparent 28%, transparent 65%, rgba(6,3,1,0.35) 100%)",
-          ].join(", "),
+          background: "linear-gradient(to bottom, rgba(6,3,1,0.08) 0%, transparent 20%, transparent 70%, rgba(6,3,1,0.18) 100%)",
         }} />
       </div>
 

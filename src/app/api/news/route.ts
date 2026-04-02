@@ -15,8 +15,9 @@ function isEnglish(text: string): boolean {
   // Spaans: ¿ ¡ of veelvoorkomende Spaanse woorden
   if (/[¿¡]/.test(text)) return false;
   if (/\b(cómo|qué|está|están|también|sobre|pero|para|los|las|del|artículo)\b/i.test(text)) return false;
-  // Frans: herkenbare patronen
-  if (/\b(comment ne plus|pourquoi|qu'il|qu'elle|c'est\b|n'est\b|d'une|l'IA\b|intelligence artificielle)\b/i.test(text)) return false;
+  // Frans: herkenbare patronen (j'ai, grâce, arrêté etc.)
+  if (/\b(comment ne plus|pourquoi|qu'il|qu'elle|c'est|n'est|d'une|l'IA|intelligence artificielle)\b/i.test(text)) return false;
+  if (/j'ai\b|j'ai\b|grâce|arrêté|arrêter|c'était|n'ont|d'abord|jusqu'|qu'on\b/i.test(text)) return false;
   return true;
 }
 
