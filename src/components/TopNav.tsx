@@ -34,20 +34,20 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         position: "fixed",
         top: 0, left: 0, right: 0,
         zIndex: 100,
-        height: "64px",
-        display: "flex",
+        height: "72px",
+        display: "grid",
+        gridTemplateColumns: "1fr auto 1fr",
         alignItems: "center",
-        justifyContent: "space-between",
         padding: "0 28px",
         background: "rgba(245,237,235,0.94)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         borderBottom: "1px solid rgba(180,150,140,0.15)",
       }}>
-        {/* Globe + brand */}
-        <div style={{ display: "flex", alignItems: "center", gap: "11px" }}>
+        {/* Globe — links */}
+        <div>
           <div style={{
-            width: "34px", height: "34px",
+            width: "36px", height: "36px",
             borderRadius: "50%",
             overflow: "hidden",
             flexShrink: 0,
@@ -56,18 +56,33 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/globe.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
-          <span style={{
+        </div>
+
+        {/* MORE.AI — gecentreerd */}
+        <div style={{ textAlign: "center" }}>
+          <div style={{
             fontFamily: "var(--font-brand)",
-            fontSize: "18px",
+            fontSize: "22px",
             fontWeight: "800",
             color: "#1A0805",
             letterSpacing: "-0.04em",
+            lineHeight: 1.1,
           }}>
             MORE<span style={{ color: "#C83820" }}>.</span>AI
-          </span>
+          </div>
+          <div style={{
+            fontSize: "9px",
+            color: "#9B7060",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            marginTop: "2px",
+          }}>
+            by Selmore
+          </div>
         </div>
 
-        {/* Hamburger */}
+        {/* Hamburger — rechts */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
           onClick={() => setMenuOpen(v => !v)}
           aria-label="Menu"
@@ -100,6 +115,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
             }} />
           ))}
         </button>
+        </div>
       </nav>
 
       {/* ── Menu kaart — matcht header stijl ── */}

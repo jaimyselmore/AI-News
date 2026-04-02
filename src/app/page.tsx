@@ -50,7 +50,7 @@ export default function Home() {
         position: "relative",
         zIndex: 1,
         minHeight: "100vh",
-        paddingTop: "80px",
+        paddingTop: "88px",
         paddingBottom: "80px",
         paddingLeft: "48px",
         paddingRight: "48px",
