@@ -114,7 +114,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         WebkitBackdropFilter: "blur(24px)",
         border: "1px solid rgba(180,150,140,0.18)",
         borderRadius: "16px",
-        padding: "0 0 6px",
+        padding: "0 0 8px",
         transformOrigin: "top right",
         transform: menuOpen ? "scale(1)" : "scale(0.88)",
         opacity: menuOpen ? 1 : 0,
@@ -122,26 +122,8 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease",
         boxShadow: "0 8px 32px rgba(100,40,20,0.12), 0 1px 0 rgba(255,255,255,0.8) inset",
       }}>
-        {/* X sluit knop */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "8px 10px 2px" }}>
-          <button
-            onClick={() => setMenuOpen(false)}
-            style={{
-              background: "rgba(200,56,32,0.08)",
-              border: "1px solid rgba(200,56,32,0.15)",
-              borderRadius: "50%",
-              width: "28px", height: "28px",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer",
-              color: "#1A0805",
-            }}
-          >
-            <X size={13} strokeWidth={2.5} />
-          </button>
-        </div>
-
-        {/* Nav items */}
-        {navItems.map((item) => {
+        {/* Nav items — X zit op zelfde rij als eerste item */}
+        {navItems.map((item, idx) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
           return (
@@ -153,7 +135,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
                 alignItems: "center",
                 gap: "12px",
                 width: "100%",
-                padding: "8px 16px",
+                padding: idx === 0 ? "8px 10px 8px 16px" : "8px 16px",
                 background: isActive ? `${item.accent}10` : "none",
                 border: "none",
                 cursor: "pointer",
@@ -179,15 +161,30 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
               }}>
                 {item.label}
               </span>
-              {isActive && (
-                <div style={{
-                  marginLeft: "auto",
-                  width: "6px", height: "6px",
-                  borderRadius: "50%",
-                  background: item.accent,
-                  flexShrink: 0,
-                }} />
-              )}
+              {/* Actieve dot op niet-eerste items, X knop op eerste item */}
+              <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center" }}>
+                {idx === 0 ? (
+                  <button
+                    onClick={e => { e.stopPropagation(); setMenuOpen(false); }}
+                    style={{
+                      background: "rgba(200,56,32,0.08)",
+                      border: "1px solid rgba(200,56,32,0.15)",
+                      borderRadius: "50%",
+                      width: "24px", height: "24px",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", color: "#1A0805",
+                    }}
+                  >
+                    <X size={11} strokeWidth={2.5} />
+                  </button>
+                ) : isActive ? (
+                  <div style={{
+                    width: "5px", height: "5px",
+                    borderRadius: "50%",
+                    background: item.accent,
+                  }} />
+                ) : null}
+              </div>
             </button>
           );
         })}

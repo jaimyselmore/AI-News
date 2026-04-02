@@ -105,7 +105,7 @@ export default function Home() {
           fontSize: "clamp(82px, 15vw, 174px)",
           fontWeight: "800",
           color: "white",
-          letterSpacing: "-0.055em",
+          letterSpacing: "-0.01em",
           lineHeight: 0.87,
           textShadow: "0 2px 64px rgba(0,0,0,0.22)",
           textAlign: "center",
