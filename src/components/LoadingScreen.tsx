@@ -16,17 +16,17 @@ export default function LoadingScreen() {
 
   if (phase === "done") return null;
 
-  // clip-path circle radius per fase
-  // Video speelt op volledige scherm-resolutie — geen zoom, geen blur
-  const clipRadius =
-    phase === "hidden"  ? "0px" :
-    phase === "enter"   ? "161px" :   // ~322px zichtbare bol
-    "150vmax";                        // dekt elk schermformaat
+  const scale =
+    phase === "hidden" ? 0 :
+    phase === "enter"  ? 0.115 :
+    2.2;
 
-  const clipTransition =
-    phase === "enter"  ? "clip-path 0.52s cubic-bezier(0.34,1.56,0.64,1)" :
-    phase === "expand" ? "clip-path 0.92s cubic-bezier(0.16,1,0.3,1)" :
-    "none";
+  const transition =
+    phase === "enter"
+      ? "transform 0.48s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease"
+      : phase === "expand"
+      ? "transform 0.96s cubic-bezier(0.16,1,0.3,1)"
+      : "none";
 
   const showExtras = phase === "enter";
 
@@ -35,31 +35,39 @@ export default function LoadingScreen() {
       position: "fixed",
       inset: 0,
       zIndex: 9999,
-      clipPath: `circle(${clipRadius} at 50% 50%)`,
-      transition: phase === "fade"
-        ? "opacity 0.55s cubic-bezier(0.4,0,0.2,1)"
-        : clipTransition,
+      background: "#F5EDEB",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      overflow: "hidden",
       opacity: phase === "fade" ? 0 : 1,
+      transition: phase === "fade" ? "opacity 0.5s cubic-bezier(0.4,0,0.2,1)" : "none",
       pointerEvents: phase === "fade" ? "none" : "all",
     }}>
 
-      {/* ── Achtergrond kleur (zichtbaar buiten globe) ── */}
-      <div style={{ position: "absolute", inset: 0, background: "#F5EDEB" }} />
-
-      {/* ── Globe video — volledig scherm, native resolutie ── */}
-      <video
-        autoPlay muted loop playsInline
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center center",
-        }}
-      >
-        <source src="/globe-video.mp4" type="video/mp4" />
-      </video>
+      {/* ── Wereldbol cirkel ── */}
+      <div style={{
+        width: "2800px",
+        height: "2800px",
+        borderRadius: "50%",
+        overflow: "hidden",
+        flexShrink: 0,
+        transform: `scale(${scale})`,
+        opacity: phase === "hidden" ? 0 : 1,
+        transition,
+        transformOrigin: "center center",
+      }}>
+        <video
+          autoPlay muted loop playsInline
+          style={{
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            objectPosition: "center center",
+          }}
+        >
+          <source src="/globe-video.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       {/* ── Spinner ringen ── */}
       <div style={{
@@ -69,7 +77,7 @@ export default function LoadingScreen() {
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
         opacity: showExtras ? 1 : 0,
-        transition: "opacity 0.3s ease",
+        transition: "opacity 0.25s ease",
       }}>
         <div className="loader-spin-outer" style={{
           position: "absolute", inset: "-16px",
