@@ -11,203 +11,201 @@ const tagColor: Record<string, string> = {
   REGELGEVING: "#C2820A",
 };
 
-const tagGradient: Record<string, string> = {
-  BREAKING:    "linear-gradient(135deg, #FDE8E6 0%, #FBBCB5 100%)",
-  UPDATE:      "linear-gradient(135deg, #FEF3CD 0%, #F9D97A 100%)",
-  TOOLS:       "linear-gradient(135deg, #EDE9FE 0%, #C4B5FD 100%)",
-  AI:          "linear-gradient(135deg, #DBEAFE 0%, #93C5FD 100%)",
-  VIDEO:       "linear-gradient(135deg, #FCE7F3 0%, #F9A8D4 100%)",
-  AUDIO:       "linear-gradient(135deg, #CCFBF1 0%, #5EEAD4 100%)",
-  REGELGEVING: "linear-gradient(135deg, #FEF3C7 0%, #FCD34D 100%)",
-};
+// Neutrale warme placeholder-tinten per index — niet categorie-gebonden
+const placeholderTints = [
+  "linear-gradient(135deg, #EDE6E3 0%, #DDD2CC 100%)",
+  "linear-gradient(135deg, #E8E3E0 0%, #D5CCC7 100%)",
+  "linear-gradient(135deg, #EBE5E1 0%, #DACFC9 100%)",
+  "linear-gradient(135deg, #E6E2DF 0%, #D3CBC5 100%)",
+  "linear-gradient(135deg, #EDE8E4 0%, #DDD5CE 100%)",
+  "linear-gradient(135deg, #E9E4E1 0%, #D8D0CA 100%)",
+];
 
 function TagPill({ tag }: { tag: string }) {
   const color = tagColor[tag] ?? "#C83820";
   return (
     <span style={{
       display: "inline-block",
-      border: `1px solid ${color}50`,
+      border: `1px solid ${color}45`,
       color: color,
       fontFamily: "var(--font-display)",
-      fontSize: "10px", fontWeight: "700",
-      letterSpacing: "0.06em", textTransform: "uppercase",
-      padding: "3px 10px", borderRadius: "100px",
-      background: color + "10",
+      fontSize: "9px", fontWeight: "700",
+      letterSpacing: "0.07em", textTransform: "uppercase",
+      padding: "3px 9px", borderRadius: "100px",
+      background: color + "0D",
+      whiteSpace: "nowrap",
     }}>
       {tag}
     </span>
   );
 }
 
-function ArticleImage({ item, height }: { item: NewsItem; height: string }) {
-  const color = tagColor[item.tag] ?? "#C83820";
-  const gradient = tagGradient[item.tag] ?? `linear-gradient(135deg, #F5EDEB 0%, ${color}30 100%)`;
-
-  if (item.image) {
-    return (
-      <div style={{
-        width: "100%", height,
-        borderRadius: "12px",
-        overflow: "hidden",
-        flexShrink: 0,
-        background: gradient,
-      }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.image}
-          alt={item.title}
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-        />
-      </div>
-    );
-  }
-
+function Img({ item, height, idx }: { item: NewsItem; height: string; idx: number }) {
+  const tint = placeholderTints[idx % placeholderTints.length];
   return (
     <div style={{
       width: "100%", height,
-      borderRadius: "12px",
-      background: gradient,
+      borderRadius: "10px",
+      overflow: "hidden",
       flexShrink: 0,
-      display: "flex",
-      alignItems: "flex-end",
-      padding: "16px",
+      background: tint,
     }}>
-      <span style={{
-        fontFamily: "var(--font-display)",
-        fontSize: "11px", fontWeight: "800",
-        letterSpacing: "0.08em", textTransform: "uppercase",
-        color: color,
-        opacity: 0.5,
-      }}>
-        {item.source}
-      </span>
+      {item.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.image}
+          alt=""
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+        />
+      )}
     </div>
   );
 }
 
-function SmallCard({ item }: { item: NewsItem }) {
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+}
+
+// Kleine kaart: foto + tag + titel + datum
+function SmallCard({ item, idx }: { item: NewsItem; idx: number }) {
   return (
-    <a
-      href={item.url ?? "#"}
-      target={item.url ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", gap: "14px" }}
-    >
-      <ArticleImage item={item} height="200px" />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+    <a href={item.url ?? "#"} target={item.url ? "_blank" : undefined} rel="noopener noreferrer"
+      style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <Img item={item} height="185px" idx={idx} />
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
           <TagPill tag={item.tag} />
         </div>
         <h3 style={{
           fontFamily: "var(--font-display)",
-          fontSize: "17px", fontWeight: "700",
-          color: "#1A0805",
-          lineHeight: "1.3",
+          fontSize: "15px", fontWeight: "700",
+          color: "#1A0805", lineHeight: "1.35",
           letterSpacing: "-0.02em",
         }}>
           {item.title}
         </h3>
-        <span style={{ fontSize: "12px", color: "#9B7060" }}>
-          {new Date(item.date).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" })}
-        </span>
+        <span style={{ fontSize: "11px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
       </div>
     </a>
   );
 }
 
-function LargeCard({ item }: { item: NewsItem }) {
+// Grote middenkaart: grote foto + tags + grote titel + datum
+function LargeCard({ item, idx }: { item: NewsItem; idx: number }) {
   const color = tagColor[item.tag] ?? "#C83820";
   return (
-    <a
-      href={item.url ?? "#"}
-      target={item.url ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", gap: "18px" }}
-    >
-      <ArticleImage item={item} height="clamp(320px, 42vw, 520px)" />
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+    <a href={item.url ?? "#"} target={item.url ? "_blank" : undefined} rel="noopener noreferrer"
+      style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", gap: "16px" }}>
+      <Img item={item} height="420px" idx={idx} />
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
           <TagPill tag={item.tag} />
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px" }}>
           <h2 style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(22px, 2.2vw, 32px)", fontWeight: "800",
-            color: "#1A0805",
-            lineHeight: "1.15",
+            fontSize: "clamp(20px, 1.8vw, 28px)", fontWeight: "800",
+            color: "#1A0805", lineHeight: "1.2",
             letterSpacing: "-0.03em",
           }}>
             {item.title}
           </h2>
           <div style={{
-            flexShrink: 0,
-            width: "36px", height: "36px",
+            flexShrink: 0, width: "32px", height: "32px",
             borderRadius: "50%",
-            border: `1px solid ${color}40`,
+            border: `1px solid ${color}35`,
             display: "flex", alignItems: "center", justifyContent: "center",
+            marginTop: "2px",
           }}>
-            <ArrowUpRight size={16} color={color} />
+            <ArrowUpRight size={14} color={color} />
           </div>
         </div>
-        <span style={{ fontSize: "13px", color: "#9B7060" }}>
-          {new Date(item.date).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" })}
-        </span>
+        <span style={{ fontSize: "12px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+      </div>
+    </a>
+  );
+}
+
+// Mini rij: kleine thumbnail links, tag + titel + datum rechts
+function MiniItem({ item, idx, last }: { item: NewsItem; idx: number; last: boolean }) {
+  return (
+    <a href={item.url ?? "#"} target={item.url ? "_blank" : undefined} rel="noopener noreferrer"
+      style={{ textDecoration: "none", color: "inherit" }}>
+      <div style={{
+        display: "flex", gap: "12px", alignItems: "flex-start",
+        paddingBottom: last ? "0" : "16px",
+        marginBottom: last ? "0" : "16px",
+        borderBottom: last ? "none" : "1px solid #EAD0B8",
+      }}>
+        <div style={{
+          width: "70px", height: "70px", flexShrink: 0,
+          borderRadius: "8px", overflow: "hidden",
+          background: placeholderTints[idx % placeholderTints.length],
+        }}>
+          {item.image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+          )}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "5px", flex: 1 }}>
+          <TagPill tag={item.tag} />
+          <p style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "13px", fontWeight: "600",
+            color: "#1A0805", lineHeight: "1.35",
+            letterSpacing: "-0.01em",
+          }}>
+            {item.title}
+          </p>
+          <span style={{ fontSize: "11px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+        </div>
       </div>
     </a>
   );
 }
 
 export default function NewsGrid({ items }: { items: NewsItem[] }) {
-  // Eerste item is featured, rest in groepen van 3: [large, small, small] afwisselend
   const all = items.filter(n => !n.featured);
 
-  // Groepeer per 3
-  const groups: NewsItem[][] = [];
-  for (let i = 0; i < all.length; i += 3) {
-    groups.push(all.slice(i, i + 3));
+  // Per blok: 2 kleine (links) + 1 groot (midden) + 4 mini (rechts) = 7 items
+  const blockSize = 7;
+  const blocks: NewsItem[][] = [];
+  for (let i = 0; i < all.length; i += blockSize) {
+    blocks.push(all.slice(i, i + blockSize));
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "64px" }}>
-      {groups.map((group, gi) => {
-        const isEven = gi % 2 === 0;
-        const [a, b, c] = group;
+    <div style={{ display: "flex", flexDirection: "column", gap: "72px" }}>
+      {blocks.map((block, bi) => {
+        const [s1, s2, large, m1, m2, m3, m4] = block;
+        const base = bi * blockSize;
 
         return (
-          <div
-            key={gi}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gridTemplateRows: "auto",
-              gap: "40px",
-              alignItems: "start",
-            }}
-          >
-            {isEven ? (
-              // Links: 2 kleine; rechts: 1 groot
-              <>
-                <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
-                  {a && <SmallCard item={a} />}
-                  {b && <SmallCard item={b} />}
-                </div>
-                <div style={{ height: "100%" }}>
-                  {c && <LargeCard item={c} />}
-                </div>
-              </>
-            ) : (
-              // Links: 1 groot; rechts: 2 kleine
-              <>
-                <div style={{ height: "100%" }}>
-                  {a && <LargeCard item={a} />}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
-                  {b && <SmallCard item={b} />}
-                  {c && <SmallCard item={c} />}
-                </div>
-              </>
-            )}
+          <div key={bi} style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1.6fr 1fr",
+            gap: "40px",
+            alignItems: "start",
+          }}>
+            {/* Links: 2 kleine kaarten */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+              {s1 && <SmallCard item={s1} idx={base} />}
+              {s2 && <SmallCard item={s2} idx={base + 1} />}
+            </div>
+
+            {/* Midden: grote kaart */}
+            <div>
+              {large && <LargeCard item={large} idx={base + 2} />}
+            </div>
+
+            {/* Rechts: mini lijst */}
+            <div>
+              {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
+                <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
+              ))}
+            </div>
           </div>
         );
       })}
