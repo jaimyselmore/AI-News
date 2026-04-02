@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import TopNav from "@/components/TopNav";
 import NewsTicker from "@/components/NewsTicker";
-import FeaturedNews from "@/components/FeaturedNews";
 import NewsGrid from "@/components/NewsGrid";
 import ToolsSection from "@/components/ToolsSection";
 import TipsSection from "@/components/TipsSection";
@@ -14,19 +13,11 @@ import { ChevronDown } from "lucide-react";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
-const sectionMeta: Record<Section, { title: string; sub: string; accent: string }> = {
-  nieuws: { title: "Nieuwste AI Updates",    sub: "Curated nieuws voor Selmore",                accent: "#C83820" },
-  tips:   { title: "Tips & Tricks",          sub: "Van beginner tot pro — praktische workflows", accent: "#D09828" },
-  tools:  { title: "AI Tools",               sub: "Wat wij gebruiken + de beste aanraders",      accent: "#7C3AED" },
-  upload: { title: "Upload eigen content",   sub: "Deel nieuws, tools of tips met het team",     accent: "#0D9488" },
-};
-
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("nieuws");
   const [liveNews, setLiveNews] = useState<NewsItem[]>(newsItems);
   const [scrolled, setScrolled] = useState(false);
   const [blurOpacity, setBlurOpacity] = useState(0);
-  const meta = sectionMeta[activeSection];
 
   useEffect(() => {
     fetch("/api/news")
@@ -64,7 +55,11 @@ export default function Home() {
       <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
         <video
           autoPlay muted loop playsInline
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            width: "100%", height: "100%", objectFit: "cover",
+            willChange: "transform",
+            transform: "translateZ(0)",
+          }}
         >
           <source src="/globe-video.mp4" type="video/mp4" />
         </video>
@@ -178,26 +173,7 @@ export default function Home() {
           background: "#F5EDEB",
         }}
       >
-        <div style={{ marginBottom: "28px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <div style={{ width: "4px", height: "22px", background: meta.accent, borderRadius: "2px" }} />
-            <h2 style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "22px", fontWeight: "800",
-              color: "#1A0805",
-              letterSpacing: "-0.03em",
-            }}>
-              {meta.title}
-            </h2>
-          </div>
-          {meta.sub && activeSection !== "nieuws" && (
-            <p style={{ fontSize: "13px", color: "#9B7060", paddingLeft: "14px" }}>
-              {meta.sub}
-            </p>
-          )}
-        </div>
-
-        {activeSection === "nieuws" && <><FeaturedNews items={liveNews} /><NewsGrid items={liveNews} /></>}
+        {activeSection === "nieuws" && <NewsGrid items={liveNews} />}
         {activeSection === "tips"   && <TipsSection />}
         {activeSection === "tools"  && <ToolsSection />}
         {activeSection === "upload" && <UploadSection />}

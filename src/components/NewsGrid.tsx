@@ -177,7 +177,7 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "72px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "56px" }}>
       {blocks.map((block, bi) => {
         const [s1, s2, large, m1, m2, m3, m4] = block;
         const base = bi * blockSize;
@@ -186,11 +186,11 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
           <div key={bi} style={{
             display: "grid",
             gridTemplateColumns: "1fr 1.6fr 1fr",
-            gap: "40px",
+            gap: "28px",
             alignItems: "start",
           }}>
             {/* Links: 2 kleine kaarten */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
               {s1 && <SmallCard item={s1} idx={base} />}
               {s2 && <SmallCard item={s2} idx={base + 1} />}
             </div>

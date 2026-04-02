@@ -114,7 +114,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         WebkitBackdropFilter: "blur(24px)",
         border: "1px solid rgba(180,150,140,0.18)",
         borderRadius: "20px",
-        padding: "8px 0 12px",
+        padding: "0 0 12px",
         transformOrigin: "top right",
         transform: menuOpen ? "scale(1)" : "scale(0.88)",
         opacity: menuOpen ? 1 : 0,
@@ -123,7 +123,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         boxShadow: "0 8px 32px rgba(100,40,20,0.12), 0 1px 0 rgba(255,255,255,0.8) inset",
       }}>
         {/* X sluit knop */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "4px 12px 4px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "10px 12px 2px" }}>
           <button
             onClick={() => setMenuOpen(false)}
             style={{
