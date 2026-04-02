@@ -57,7 +57,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
             <img src="/globe.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span style={{
-            fontFamily: "var(--font-display)",
+            fontFamily: "var(--font-brand)",
             fontSize: "18px",
             fontWeight: "800",
             color: "#1A0805",

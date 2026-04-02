@@ -101,11 +101,11 @@ export default function Home() {
         overflow: "hidden",
       }}>
         <h1 style={{
-          fontFamily: "var(--font-display)",
+          fontFamily: "var(--font-brand)",
           fontSize: "clamp(82px, 15vw, 174px)",
           fontWeight: "800",
           color: "white",
-          letterSpacing: "-0.01em",
+          letterSpacing: "-0.04em",
           lineHeight: 0.87,
           textShadow: "0 2px 64px rgba(0,0,0,0.22)",
           textAlign: "center",

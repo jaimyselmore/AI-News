@@ -94,7 +94,7 @@ export default function LoadingScreen() {
         transition: "opacity 0.3s ease",
       }}>
         <div style={{
-          fontFamily: "var(--font-display)",
+          fontFamily: "var(--font-brand)",
           fontSize: "20px", fontWeight: "800",
           color: "#1A0805", letterSpacing: "-0.04em", lineHeight: 1,
         }}>
