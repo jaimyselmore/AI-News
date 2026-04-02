@@ -7,22 +7,21 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
 
   return (
     <div style={{
-      background: "rgba(255,255,255,0.11)",
-      backdropFilter: "blur(8px)",
-      WebkitBackdropFilter: "blur(8px)",
-      border: "1px solid rgba(255,255,255,0.18)",
+      background: "#FFFFFF",
+      border: "1px solid #EAD0B8",
       borderRadius: "24px",
       padding: "40px 44px",
       position: "relative",
       overflow: "hidden",
       marginBottom: "24px",
+      boxShadow: "0 2px 8px rgba(100,40,15,0.06), 0 12px 40px rgba(100,40,15,0.08)",
     }}>
       {/* Subtiele gloed vanuit de hoek */}
       <div style={{
         position: "absolute",
         top: "-80px", right: "-80px",
         width: "280px", height: "280px",
-        background: "radial-gradient(circle, rgba(200,56,32,0.18) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(200,56,32,0.07) 0%, transparent 70%)",
         borderRadius: "50%",
         pointerEvents: "none",
       }} />
@@ -30,7 +29,7 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
       {/* Tags */}
       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
         <span style={{
-          background: "rgba(200,56,32,0.85)",
+          background: "#C83820",
           color: "white",
           fontFamily: "var(--font-display)",
           fontSize: "10px", fontWeight: "800",
@@ -41,11 +40,11 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
         </span>
         <span style={{
           display: "flex", alignItems: "center", gap: "5px",
-          background: "rgba(255,255,255,0.10)",
-          color: "rgba(255,255,255,0.75)",
+          background: "rgba(200,56,32,0.08)",
+          color: "#C83820",
           fontSize: "11px", fontWeight: "600",
           padding: "5px 12px", borderRadius: "100px",
-          border: "1px solid rgba(255,255,255,0.18)",
+          border: "1px solid rgba(200,56,32,0.2)",
         }}>
           <Sparkles size={11} />
           Uitgelicht
@@ -57,12 +56,11 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
         fontFamily: "var(--font-display)",
         fontSize: "clamp(22px, 2.8vw, 36px)",
         fontWeight: "800",
-        color: "white",
+        color: "#1A0805",
         lineHeight: "1.12",
         letterSpacing: "-0.03em",
         marginBottom: "16px",
         maxWidth: "680px",
-        textShadow: "0 2px 20px rgba(0,0,0,0.2)",
       }}>
         {featured.title}
       </h1>
@@ -70,7 +68,7 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
       {/* Samenvatting */}
       <p style={{
         fontSize: "15px", lineHeight: "1.75",
-        color: "rgba(255,255,255,0.65)",
+        color: "#5C3020",
         marginBottom: "28px",
         maxWidth: "620px",
       }}>
@@ -80,11 +78,11 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
       {/* Meta + CTA */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <Clock size={12} color="rgba(255,255,255,0.45)" />
-          <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>{featured.readTime} min lezen</span>
+          <Clock size={12} color="#C4A99A" />
+          <span style={{ fontSize: "12px", color: "#9B7060" }}>{featured.readTime} min lezen</span>
         </div>
-        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>—</span>
-        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", fontWeight: "500" }}>{featured.source}</span>
+        <span style={{ fontSize: "12px", color: "#EAD0B8" }}>—</span>
+        <span style={{ fontSize: "12px", color: "#9B7060", fontWeight: "500" }}>{featured.source}</span>
         {featured.url && (
           <a
             href={featured.url}
@@ -100,16 +98,16 @@ export default function FeaturedNews({ items }: { items: NewsItem[] }) {
               fontFamily: "var(--font-display)",
               fontSize: "13px", fontWeight: "700",
               cursor: "pointer", textDecoration: "none",
-              boxShadow: "0 4px 20px rgba(200,56,32,0.4)",
+              boxShadow: "0 4px 20px rgba(200,56,32,0.3)",
               transition: "transform 0.2s, box-shadow 0.2s",
             }}
             onMouseEnter={e => {
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 28px rgba(200,56,32,0.5)";
+              e.currentTarget.style.boxShadow = "0 8px 28px rgba(200,56,32,0.45)";
             }}
             onMouseLeave={e => {
               e.currentTarget.style.transform = "";
-              e.currentTarget.style.boxShadow = "0 4px 20px rgba(200,56,32,0.4)";
+              e.currentTarget.style.boxShadow = "0 4px 20px rgba(200,56,32,0.3)";
             }}
           >
             Lees artikel <ArrowRight size={14} />

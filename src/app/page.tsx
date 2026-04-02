@@ -164,7 +164,7 @@ export default function Home() {
         <NewsTicker items={liveNews} />
       </div>
 
-      {/* ── Content: boven de blur laag ── */}
+      {/* ── Content: vaste warme achtergrond ── */}
       <section
         id="content-section"
         style={{
@@ -172,6 +172,7 @@ export default function Home() {
           zIndex: 4,
           minHeight: "100vh",
           padding: "52px 48px 120px",
+          background: "#F6F1E7",
         }}
       >
         <div style={{ marginBottom: "28px" }}>
@@ -180,14 +181,13 @@ export default function Home() {
             <h2 style={{
               fontFamily: "var(--font-display)",
               fontSize: "22px", fontWeight: "800",
-              color: "white",
+              color: "#1A0805",
               letterSpacing: "-0.03em",
-              textShadow: "0 1px 12px rgba(0,0,0,0.2)",
             }}>
               {meta.title}
             </h2>
           </div>
-          <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", paddingLeft: "14px" }}>
+          <p style={{ fontSize: "13px", color: "#9B7060", paddingLeft: "14px" }}>
             {meta.sub}
           </p>
         </div>

@@ -18,7 +18,7 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
       href={item.url ?? "#"}
       target={item.url ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="glass-card fade-up"
+      className="card fade-up"
       style={{
         animationDelay: `${delay}s`,
         opacity: 0,
@@ -33,9 +33,9 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
       {/* Tag + arrow */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span style={{
-          background: color + "28",
-          color: "white",
-          border: `1px solid ${color}55`,
+          background: color + "18",
+          color: color,
+          border: `1px solid ${color}40`,
           fontFamily: "var(--font-display)",
           fontSize: "10px", fontWeight: "800",
           letterSpacing: "0.06em", textTransform: "uppercase",
@@ -43,17 +43,16 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
         }}>
           {item.tag}
         </span>
-        <ArrowUpRight size={14} color="rgba(255,255,255,0.35)" />
+        <ArrowUpRight size={14} color="#C4A99A" />
       </div>
 
       {/* Titel */}
       <h3 style={{
         fontFamily: "var(--font-display)",
         fontSize: "14px", fontWeight: "700",
-        color: "white",
+        color: "#1A0805",
         lineHeight: "1.4",
         letterSpacing: "-0.01em",
-        textShadow: "0 1px 8px rgba(0,0,0,0.15)",
       }}>
         {item.title}
       </h3>
@@ -61,7 +60,7 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
       {/* Samenvatting */}
       <p style={{
         fontSize: "12px",
-        color: "rgba(255,255,255,0.55)",
+        color: "#9B7060",
         lineHeight: "1.7",
         flex: 1,
       }}>
@@ -74,11 +73,11 @@ function NewsCard({ item, delay }: { item: NewsItem; delay: number }) {
         alignItems: "center",
         gap: "8px",
         paddingTop: "10px",
-        borderTop: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "1px solid #F5E8D8",
       }}>
-        <Clock size={10} color="rgba(255,255,255,0.3)" />
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>{item.readTime} min</span>
-        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", marginLeft: "auto", fontWeight: "500" }}>
+        <Clock size={10} color="#C4A99A" />
+        <span style={{ fontSize: "11px", color: "#C4A99A" }}>{item.readTime} min</span>
+        <span style={{ fontSize: "11px", color: "#C4A99A", marginLeft: "auto", fontWeight: "500" }}>
           {item.source}
         </span>
       </div>
@@ -99,13 +98,12 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
         <h2 style={{
           fontFamily: "var(--font-display)",
           fontSize: "16px", fontWeight: "700",
-          color: "white",
+          color: "#1A0805",
           letterSpacing: "-0.02em",
-          textShadow: "0 1px 10px rgba(0,0,0,0.2)",
         }}>
           Alle nieuws
         </h2>
-        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.38)", fontWeight: "500" }}>
+        <span style={{ fontSize: "12px", color: "#9B7060", fontWeight: "500" }}>
           {rest.length} artikelen
         </span>
       </div>
