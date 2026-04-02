@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Newspaper, Lightbulb, Wrench, Upload } from "lucide-react";
+import { X, Newspaper, Lightbulb, Wrench } from "lucide-react";
 
 type Section = "nieuws" | "tips" | "tools" | "upload";
 
@@ -11,10 +11,9 @@ interface TopNavProps {
 }
 
 const navItems = [
-  { id: "nieuws" as Section, label: "Nieuws",        icon: Newspaper, color: "#FF9070" },
-  { id: "tips"   as Section, label: "Tips & Tricks", icon: Lightbulb, color: "#FFD070" },
-  { id: "tools"  as Section, label: "Alle Tools",    icon: Wrench,    color: "#C4A8FF" },
-  { id: "upload" as Section, label: "Upload",        icon: Upload,    color: "#60E8D0" },
+  { id: "nieuws" as Section, label: "Nieuws",        icon: Newspaper, accent: "#C83820" },
+  { id: "tips"   as Section, label: "Tips & Tricks", icon: Lightbulb, accent: "#D09828" },
+  { id: "tools"  as Section, label: "Alle Tools",    icon: Wrench,    accent: "#7C3AED" },
 ];
 
 export default function TopNav({ activeSection, onSectionChange }: TopNavProps) {
@@ -43,7 +42,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         background: "rgba(245,237,235,0.94)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(180,160,130,0.15)",
+        borderBottom: "1px solid rgba(180,150,140,0.15)",
       }}>
         {/* Globe + brand */}
         <div style={{ display: "flex", alignItems: "center", gap: "11px" }}>
@@ -63,13 +62,12 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
             fontWeight: "800",
             color: "#1A0805",
             letterSpacing: "-0.04em",
-            textShadow: "none",
           }}>
             MORE<span style={{ color: "#C83820" }}>.</span>AI
           </span>
         </div>
 
-        {/* Hamburger — minimale knop */}
+        {/* Hamburger */}
         <button
           onClick={() => setMenuOpen(v => !v)}
           aria-label="Menu"
@@ -80,7 +78,6 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
             width: "42px", height: "42px",
             display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer",
-            color: "white",
             flexDirection: "column",
             gap: "5px",
             padding: "12px",
@@ -89,7 +86,6 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
           onMouseEnter={e => (e.currentTarget.style.background = "rgba(200,56,32,0.18)")}
           onMouseLeave={e => (e.currentTarget.style.background = "rgba(200,56,32,0.10)")}
         >
-          {/* 3 lijntjes */}
           {[0,1,2].map(i => (
             <span key={i} style={{
               display: "block",
@@ -106,41 +102,41 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         </button>
       </nav>
 
-      {/* ── Zwevende glazen menu kaart (img9 stijl) ── */}
+      {/* ── Menu kaart — matcht header stijl ── */}
       <div style={{
         position: "fixed",
         top: "76px",
         right: "28px",
         zIndex: 101,
-        width: "260px",
-        background: "rgba(255,255,255,0.14)",
-        backdropFilter: "blur(28px)",
-        WebkitBackdropFilter: "blur(28px)",
-        border: "1px solid rgba(255,255,255,0.20)",
-        borderRadius: "22px",
-        padding: "10px 0 16px",
+        width: "240px",
+        background: "rgba(245,237,235,0.97)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        border: "1px solid rgba(180,150,140,0.18)",
+        borderRadius: "20px",
+        padding: "8px 0 12px",
         transformOrigin: "top right",
         transform: menuOpen ? "scale(1)" : "scale(0.88)",
         opacity: menuOpen ? 1 : 0,
         pointerEvents: menuOpen ? "all" : "none",
         transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease",
-        boxShadow: "0 12px 48px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(255,255,255,0.08) inset",
+        boxShadow: "0 8px 32px rgba(100,40,20,0.12), 0 1px 0 rgba(255,255,255,0.8) inset",
       }}>
         {/* X sluit knop */}
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "4px 14px 4px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "4px 12px 4px" }}>
           <button
             onClick={() => setMenuOpen(false)}
             style={{
-              background: "rgba(255,255,255,0.12)",
-              border: "none",
+              background: "rgba(200,56,32,0.08)",
+              border: "1px solid rgba(200,56,32,0.15)",
               borderRadius: "50%",
-              width: "30px", height: "30px",
+              width: "28px", height: "28px",
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer",
-              color: "white",
+              color: "#1A0805",
             }}
           >
-            <X size={14} strokeWidth={2.5} />
+            <X size={13} strokeWidth={2.5} />
           </button>
         </div>
 
@@ -155,33 +151,31 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "16px",
+                gap: "14px",
                 width: "100%",
-                padding: "12px 22px",
-                background: "none",
+                padding: "11px 20px",
+                background: isActive ? `${item.accent}10` : "none",
                 border: "none",
                 cursor: "pointer",
                 textAlign: "left",
-                opacity: isActive ? 1 : 0.72,
-                transition: "opacity 0.18s ease",
+                transition: "background 0.15s ease",
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-              onMouseLeave={e => (e.currentTarget.style.opacity = isActive ? "1" : "0.72")}
+              onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = "rgba(200,56,32,0.05)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = isActive ? `${item.accent}10` : "none"; }}
             >
               <Icon
-                size={22}
-                color={isActive ? item.color : "white"}
+                size={20}
+                color={isActive ? item.accent : "#9B7060"}
                 strokeWidth={1.8}
                 style={{ flexShrink: 0 }}
               />
               <span style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "17px",
+                fontSize: "16px",
                 fontWeight: "700",
-                color: isActive ? item.color : "white",
+                color: isActive ? item.accent : "#1A0805",
                 letterSpacing: "-0.02em",
-                textShadow: isActive ? `0 0 20px ${item.color}88` : "none",
-                transition: "color 0.18s ease",
+                transition: "color 0.15s ease",
               }}>
                 {item.label}
               </span>
@@ -190,29 +184,13 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
                   marginLeft: "auto",
                   width: "6px", height: "6px",
                   borderRadius: "50%",
-                  background: item.color,
+                  background: item.accent,
                   flexShrink: 0,
-                  boxShadow: `0 0 8px ${item.color}`,
                 }} />
               )}
             </button>
           );
         })}
-
-        {/* Live indicator */}
-        <div style={{
-          margin: "10px 22px 0",
-          paddingTop: "12px",
-          borderTop: "1px solid rgba(255,255,255,0.10)",
-          display: "flex",
-          alignItems: "center",
-          gap: "7px",
-        }}>
-          <div className="pulse-dot" style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ADE80" }} />
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em" }}>
-            Live · Amsterdam
-          </span>
-        </div>
       </div>
 
       {/* Tap-buiten-sluiten */}
