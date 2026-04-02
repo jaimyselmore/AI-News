@@ -40,7 +40,7 @@ export default function TopNav({ activeSection, onSectionChange }: TopNavProps) 
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 28px",
-        background: "rgba(245,226,232,0.94)",
+        background: "rgba(245,237,235,0.94)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         borderBottom: "1px solid rgba(180,160,130,0.15)",

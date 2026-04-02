@@ -175,7 +175,7 @@ export default function Home() {
           zIndex: 4,
           minHeight: "100vh",
           padding: "52px 48px 120px",
-          background: "#F5E2E8",
+          background: "#F5EDEB",
         }}
       >
         <div style={{ marginBottom: "28px" }}>

@@ -9,7 +9,7 @@ export default function NewsTicker({ items }: { items: NewsItem[] }) {
     <div style={{
       height: "38px", overflow: "hidden",
       display: "flex", alignItems: "center",
-      background: "rgba(245,226,232,0.96)",
+      background: "rgba(245,237,235,0.96)",
       backdropFilter: "blur(20px)",
       WebkitBackdropFilter: "blur(20px)",
       borderTop: "1px solid rgba(180,160,130,0.18)",
