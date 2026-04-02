@@ -189,23 +189,35 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
             gap: "28px",
             alignItems: "start",
           }}>
-            {/* Links: 2 kleine kaarten */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-              {s1 && <SmallCard item={s1} idx={base} />}
-              {s2 && <SmallCard item={s2} idx={base + 1} />}
-            </div>
-
-            {/* Midden: grote kaart */}
-            <div>
-              {large && <LargeCard item={large} idx={base + 2} />}
-            </div>
-
-            {/* Rechts: mini lijst */}
-            <div>
-              {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
-                <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
-              ))}
-            </div>
+              {bi % 2 === 0 ? (
+              /* Even blok: klein links | groot midden | mini rechts */
+              <>
+                <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+                  {s1 && <SmallCard item={s1} idx={base} />}
+                  {s2 && <SmallCard item={s2} idx={base + 1} />}
+                </div>
+                <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
+                <div>
+                  {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
+                    <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              /* Oneven blok: mini links | groot midden | klein rechts */
+              <>
+                <div>
+                  {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
+                    <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
+                  ))}
+                </div>
+                <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+                  {s1 && <SmallCard item={s1} idx={base} />}
+                  {s2 && <SmallCard item={s2} idx={base + 1} />}
+                </div>
+              </>
+            )}
           </div>
         );
       })}

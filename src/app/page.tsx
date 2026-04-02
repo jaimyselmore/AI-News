@@ -46,7 +46,7 @@ export default function Home() {
       <TopNav activeSection={activeSection} onSectionChange={handleSectionChange} />
 
       {/* ── Content: direct na nav, vaste warme achtergrond ── */}
-      <main style={{
+      <main className="page-enter" style={{
         position: "relative",
         zIndex: 1,
         minHeight: "100vh",
