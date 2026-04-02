@@ -85,7 +85,10 @@ function SmallCard({ item, idx }: { item: NewsItem; idx: number }) {
         }}>
           {item.title}
         </h3>
-        <span style={{ fontSize: "11px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <span style={{ fontSize: "11px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+          {item.source && <span style={{ fontSize: "11px", color: "#C0A090" }}>· {item.source}</span>}
+        </div>
       </div>
     </a>
   );
@@ -121,7 +124,10 @@ function LargeCard({ item, idx }: { item: NewsItem; idx: number }) {
             <ArrowUpRight size={14} color={color} />
           </div>
         </div>
-        <span style={{ fontSize: "12px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <span style={{ fontSize: "12px", color: "#9B7060" }}>{fmtDate(item.date)}</span>
+          {item.source && <span style={{ fontSize: "12px", color: "#C0A090" }}>· {item.source}</span>}
+        </div>
       </div>
     </a>
   );
@@ -134,12 +140,12 @@ function MiniItem({ item, idx, last }: { item: NewsItem; idx: number; last: bool
       style={{ textDecoration: "none", color: "inherit" }}>
       <div style={{
         display: "flex", gap: "12px", alignItems: "flex-start",
-        paddingBottom: last ? "0" : "16px",
-        marginBottom: last ? "0" : "16px",
+        paddingBottom: last ? "0" : "20px",
+        marginBottom: last ? "0" : "20px",
         borderBottom: last ? "none" : "1px solid #EAD0B8",
       }}>
         <div style={{
-          width: "70px", height: "70px", flexShrink: 0,
+          width: "76px", height: "76px", flexShrink: 0,
           borderRadius: "8px", overflow: "hidden",
           background: placeholderTints[idx % placeholderTints.length],
         }}>
@@ -169,55 +175,64 @@ function MiniItem({ item, idx, last }: { item: NewsItem; idx: number; last: bool
 export default function NewsGrid({ items }: { items: NewsItem[] }) {
   const all = items.filter(n => !n.featured);
 
-  // Per blok: 2 kleine (links) + 1 groot (midden) + 4 mini (rechts) = 7 items
-  const blockSize = 7;
+  // Per blok: 2 kleine + 1 groot + 2 mini = 5 items — rustiger dan 7
+  const blockSize = 5;
   const blocks: NewsItem[][] = [];
   for (let i = 0; i < all.length; i += blockSize) {
     blocks.push(all.slice(i, i + blockSize));
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "56px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "72px" }}>
       {blocks.map((block, bi) => {
-        const [s1, s2, large, m1, m2, m3, m4] = block;
+        const [s1, s2, large, m1, m2] = block;
         const base = bi * blockSize;
 
         return (
-          <div key={bi} style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.6fr 1fr",
-            gap: "28px",
-            alignItems: "start",
-          }}>
-              {bi % 2 === 0 ? (
-              /* Even blok: klein links | groot midden | mini rechts */
-              <>
-                <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-                  {s1 && <SmallCard item={s1} idx={base} />}
-                  {s2 && <SmallCard item={s2} idx={base + 1} />}
-                </div>
-                <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
-                <div>
-                  {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
-                    <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
-                  ))}
-                </div>
-              </>
-            ) : (
-              /* Oneven blok: mini links | groot midden | klein rechts */
-              <>
-                <div>
-                  {[m1, m2, m3, m4].filter(Boolean).map((item, i, arr) => (
-                    <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
-                  ))}
-                </div>
-                <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-                  {s1 && <SmallCard item={s1} idx={base} />}
-                  {s2 && <SmallCard item={s2} idx={base + 1} />}
-                </div>
-              </>
+          <div key={bi}>
+            {bi > 0 && (
+              <div style={{
+                height: "1px",
+                background: "linear-gradient(90deg, transparent, #EAD0B8 20%, #EAD0B8 80%, transparent)",
+                marginBottom: "72px",
+              }} />
             )}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1.5fr 1fr",
+              gap: "36px",
+              alignItems: "start",
+            }}>
+              {bi % 2 === 0 ? (
+                /* Even blok: klein links | groot midden | mini rechts */
+                <>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
+                    {s1 && <SmallCard item={s1} idx={base} />}
+                    {s2 && <SmallCard item={s2} idx={base + 1} />}
+                  </div>
+                  <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
+                  <div>
+                    {[m1, m2].filter(Boolean).map((item, i, arr) => (
+                      <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                /* Oneven blok: mini links | groot midden | klein rechts */
+                <>
+                  <div>
+                    {[m1, m2].filter(Boolean).map((item, i, arr) => (
+                      <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
+                    ))}
+                  </div>
+                  <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
+                    {s1 && <SmallCard item={s1} idx={base} />}
+                    {s2 && <SmallCard item={s2} idx={base + 1} />}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         );
       })}

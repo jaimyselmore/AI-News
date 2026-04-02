@@ -21,9 +21,8 @@ function isEnglish(text: string): boolean {
   return true;
 }
 
-// Next.js cachet de response 6 uur — automatisch refresh zonder cron of database
-export const dynamic = 'force-static';
-export const revalidate = 21600;
+// Next.js ISR: 1 uur cache, daarna automatisch verse data
+export const revalidate = 3600;
 
 export async function GET() {
   try {

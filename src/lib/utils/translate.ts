@@ -21,7 +21,8 @@ export async function translateToNL(texts: string[]): Promise<string[]> {
         if (email) url.searchParams.set('de', email);
 
         const res = await fetch(url.toString(), {
-          next: { revalidate: 604800 }, // cache 1 week per unieke tekst
+          next: { revalidate: 86400 }, // cache 24u per unieke tekst
+          signal: AbortSignal.timeout(4000), // max 4s per vertaling
         });
 
         if (!res.ok) return text;

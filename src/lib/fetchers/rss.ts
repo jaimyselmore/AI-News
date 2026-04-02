@@ -22,7 +22,8 @@ function decodeEntities(text: string): string {
 const FEEDS = [
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/', source: 'TechCrunch' },
   { url: 'https://www.theverge.com/rss/ai-artificial-intelligence/index.xml', source: 'The Verge' },
-  { url: 'https://dev.to/feed/tag/ai', source: 'dev.to' },
+  { url: 'https://venturebeat.com/category/ai/feed/', source: 'VentureBeat' },
+  { url: 'https://www.wired.com/feed/tag/artificial-intelligence/latest/rss', source: 'Wired' },
 ];
 
 function extractXml(block: string, tag: string): string {
@@ -55,13 +56,20 @@ async function parseFeed(url: string, source: string) {
       const link = extractXml(b, 'link') || (b.match(/href="([^"]+)"/) ?? [])[1] || '';
       const pubDate = extractXml(b, 'pubDate') || extractXml(b, 'published') || extractXml(b, 'updated');
 
-      // Extraheer afbeelding uit media:content, enclosure of img-tag in content
+      // Extraheer afbeelding — probeer meerdere patronen in volgorde van betrouwbaarheid
       const imgMatch =
-        b.match(/media:content[^>]*url="([^"]+)"[^>]*(?:medium="image"|type="image[^"]*")/) ||
+        // media:content met medium="image" (volgorde-onafhankelijk)
+        b.match(/media:content[^>]*\bmedium="image"[^>]*url="([^"]+)"/) ||
+        b.match(/media:content[^>]*url="([^"]+)"[^>]*\bmedium="image"/) ||
+        // media:thumbnail
         b.match(/media:thumbnail[^>]*url="([^"]+)"/) ||
+        // enclosure met image type
         b.match(/enclosure[^>]*url="([^"]+)"[^>]*type="image/) ||
-        b.match(/media:content[^>]*url="([^"]*\.(?:jpg|jpeg|png|webp)[^"]*)"/) ||
-        b.match(/<img[^>]+src="(https?:[^"]+\.(?:jpg|jpeg|png|webp)[^"]*)"/) ||
+        b.match(/enclosure[^>]*type="image[^"]*"[^>]*url="([^"]+)"/) ||
+        // media:content met image extensie
+        b.match(/media:content[^>]*url="([^"]*\.(?:jpg|jpeg|png|webp)(?:\?[^"]*)?)"/) ||
+        // img tag in content/description
+        b.match(/<img[^>]+src="(https?:[^"]+\.(?:jpg|jpeg|png|webp)(?:[^"]*)?)"/) ||
         null;
       const image = imgMatch ? imgMatch[1] : undefined;
 
