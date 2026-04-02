@@ -33,10 +33,22 @@ export default function Home() {
     <>
       <LoadingScreen />
 
+      {/* ── Globe video: altijd zichtbaar als achtergrond ── */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
+        <video
+          autoPlay muted loop playsInline
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        >
+          <source src="/globe-video.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       <TopNav activeSection={activeSection} onSectionChange={handleSectionChange} />
 
-      {/* ── Content: direct na nav ── */}
+      {/* ── Content: direct na nav, vaste warme achtergrond ── */}
       <main style={{
+        position: "relative",
+        zIndex: 1,
         minHeight: "100vh",
         paddingTop: "80px",
         paddingBottom: "80px",
