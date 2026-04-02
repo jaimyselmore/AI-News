@@ -133,7 +133,10 @@ export default function Home() {
         <button
           onClick={() => document.getElementById("content-section")?.scrollIntoView({ behavior: "smooth" })}
           style={{
-            marginTop: "52px",
+            position: "absolute",
+            bottom: "72px",
+            left: "50%",
+            transform: "translateX(-50%)",
             background: "none", border: "none",
             cursor: "pointer",
             display: "flex", flexDirection: "column",
@@ -172,7 +175,7 @@ export default function Home() {
           zIndex: 4,
           minHeight: "100vh",
           padding: "52px 48px 120px",
-          background: "#F6F1E7",
+          background: "#F5E2E8",
         }}
       >
         <div style={{ marginBottom: "28px" }}>
@@ -187,9 +190,11 @@ export default function Home() {
               {meta.title}
             </h2>
           </div>
-          <p style={{ fontSize: "13px", color: "#9B7060", paddingLeft: "14px" }}>
-            {meta.sub}
-          </p>
+          {meta.sub && activeSection !== "nieuws" && (
+            <p style={{ fontSize: "13px", color: "#9B7060", paddingLeft: "14px" }}>
+              {meta.sub}
+            </p>
+          )}
         </div>
 
         {activeSection === "nieuws" && <><FeaturedNews items={liveNews} /><NewsGrid items={liveNews} /></>}

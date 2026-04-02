@@ -5,7 +5,7 @@
 
 :root {
   /* Kleuren gebaseerd op de globe afbeelding */
-  --bg:        #F8F0E8;      /* Warm linnen — globe achtergrond */
+  --bg:        #F5E2E8;      /* Zacht roze — achtergrond */
   --bg-card:   #FFFFFF;
   --bg-hover:  #FFF0E4;
   --red:       #C83820;      /* Diep koraalrood — globe oppervlak */
@@ -160,4 +160,4 @@ body {
 .bounce-down { animation: bounceDown 1.6s ease-in-out infinite; }
 
 /* Achtergrond matcht de exacte globe achtergrondkleur */
-body { background: #F6F1E7; }
+body { background: #F5E2E8; }
