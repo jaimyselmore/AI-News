@@ -148,15 +148,21 @@ export default function Home() {
           <ChevronDown size={15} color="rgba(255,255,255,0.38)" className="bounce-down" />
         </button>
 
-        {/* ── Ticker: onderin de hero, scrolt mee ── */}
-        <div style={{
-          position: "absolute",
-          bottom: "44px",
-          left: 0, right: 0,
-        }}>
-          <NewsTicker items={liveNews} />
-        </div>
       </section>
+
+      {/* ── Ticker: vaste balk onderaan, matcht nav-stijl ── */}
+      <div style={{
+        position: "fixed",
+        bottom: 0,
+        left: 0, right: 0,
+        zIndex: 5,
+        opacity: blurOpacity,
+        transform: `translateY(${(1 - blurOpacity) * 14}px)`,
+        transition: "opacity 0.18s linear, transform 0.18s linear",
+        pointerEvents: blurOpacity < 0.1 ? "none" : "all",
+      }}>
+        <NewsTicker items={liveNews} />
+      </div>
 
       {/* ── Content: boven de blur laag ── */}
       <section
@@ -165,7 +171,7 @@ export default function Home() {
           position: "relative",
           zIndex: 4,
           minHeight: "100vh",
-          padding: "52px 48px 100px",
+          padding: "52px 48px 120px",
         }}
       >
         <div style={{ marginBottom: "28px" }}>

@@ -1,3 +1,23 @@
+// Decode common HTML entities (numeric + named)
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&hellip;/g, '…')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rdquo;/g, '\u201D')
+    .replace(/&ldquo;/g, '\u201C');
+}
+
 // RSS feeds gericht op praktische AI — tools, tips, nieuws
 const FEEDS = [
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/', source: 'TechCrunch' },
@@ -7,11 +27,12 @@ const FEEDS = [
 
 function extractXml(block: string, tag: string): string {
   // CDATA eerst proberen
+  const stripTags = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const cdata = block.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`));
-  if (cdata) return cdata[1].trim();
+  if (cdata) return stripTags(cdata[1]);
   // Daarna plain tekst
   const plain = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
-  return plain ? plain[1].replace(/<[^>]+>/g, '').trim() : '';
+  return plain ? stripTags(plain[1]) : '';
 }
 
 async function parseFeed(url: string, source: string) {
@@ -23,12 +44,13 @@ async function parseFeed(url: string, source: string) {
 
     while ((m = re.exec(xml)) !== null && items.length < 8) {
       const b = m[1];
-      const title = extractXml(b, 'title');
-      const description = (
-        extractXml(b, 'description') ||
-        extractXml(b, 'summary') ||
-        extractXml(b, 'content')
-      ).slice(0, 400);
+      const title = decodeEntities(extractXml(b, 'title'));
+      const description = decodeEntities(
+        (extractXml(b, 'description') ||
+         extractXml(b, 'summary') ||
+         extractXml(b, 'content'))
+        .slice(0, 400)
+      );
       // <link> kan een plain element of een href-attribuut hebben (Atom)
       const link = extractXml(b, 'link') || (b.match(/href="([^"]+)"/) ?? [])[1] || '';
       const pubDate = extractXml(b, 'pubDate') || extractXml(b, 'published') || extractXml(b, 'updated');
