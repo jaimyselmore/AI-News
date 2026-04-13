@@ -44,11 +44,7 @@ export default function Home() {
       {/* ── Pagina fadet + schuift van rechts naar links via CSS keyframe ── */}
       <div
         className="page-reveal"
-        style={{
-          position: "relative",
-          zIndex: 10000,
-          pointerEvents: pageVisible ? "all" : "none",
-        }}
+        style={{ pointerEvents: pageVisible ? "all" : "none" }}
       >
         {/* ── Globe video: achtergrond ── */}
         <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
