@@ -41,12 +41,13 @@ export default function Home() {
     <>
       <LoadingScreen />
 
-      {/* ── Pagina fadet in OVER de loading screen (globe blijft groot, geen krimpen) ── */}
+      {/* ── Pagina schuift van rechts naar links in terwijl de globe groot blijft ── */}
       <div style={{
         position: "relative",
         zIndex: 10000,
         opacity: pageVisible ? 1 : 0,
-        transition: "opacity 0.85s cubic-bezier(0.4,0,0.2,1)",
+        transform: pageVisible ? "translateX(0)" : "translateX(72px)",
+        transition: "opacity 0.85s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94)",
         pointerEvents: pageVisible ? "all" : "none",
       }}>
         {/* ── Globe video: achtergrond ── */}
