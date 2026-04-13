@@ -206,12 +206,14 @@ export default function NewsGrid({ items }: { items: NewsItem[] }) {
               {bi % 2 === 0 ? (
                 /* Even blok: klein links | groot midden | mini rechts */
                 <>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
+                  <div className={bi === 0 ? "col-enter-1" : undefined} style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
                     {s1 && <SmallCard item={s1} idx={base} />}
                     {s2 && <SmallCard item={s2} idx={base + 1} />}
                   </div>
-                  <div>{large && <LargeCard item={large} idx={base + 2} />}</div>
-                  <div>
+                  <div className={bi === 0 ? "col-enter-2" : undefined}>
+                    {large && <LargeCard item={large} idx={base + 2} />}
+                  </div>
+                  <div className={bi === 0 ? "col-enter-3" : undefined}>
                     {[m1, m2].filter(Boolean).map((item, i, arr) => (
                       <MiniItem key={item!.id} item={item!} idx={base + 3 + i} last={i === arr.length - 1} />
                     ))}
