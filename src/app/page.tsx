@@ -41,11 +41,14 @@ export default function Home() {
     <>
       <LoadingScreen />
 
-      {/* ── Pagina fadet + schuift van rechts naar links via CSS keyframe ── */}
-      <div
-        className="page-reveal"
-        style={{ pointerEvents: pageVisible ? "all" : "none" }}
-      >
+      <div style={{
+        opacity:    pageVisible ? 1 : 0,
+        transform:  pageVisible ? "translateX(0)" : "translateX(80px)",
+        transition: pageVisible
+          ? "opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94)"
+          : "none",
+        pointerEvents: pageVisible ? "all" : "none",
+      }}>
         {/* ── Globe video: achtergrond ── */}
         <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
           <video
