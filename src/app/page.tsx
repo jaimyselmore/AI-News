@@ -14,6 +14,7 @@ type Section = "nieuws" | "tips" | "tools" | "upload";
 export default function Home() {
   const [activeSection, setActiveSection] = useState<Section>("nieuws");
   const [liveNews, setLiveNews] = useState<NewsItem[]>(newsItems);
+  const [pageVisible, setPageVisible] = useState(false);
 
   useEffect(() => {
     fetch("/api/news")
@@ -22,6 +23,13 @@ export default function Home() {
         if (Array.isArray(data) && data.length > 0) setLiveNews(data);
       })
       .catch(() => {});
+  }, []);
+
+  // Page fades in OVER the loading screen (globe stays big, no shrink)
+  // Expand animation finishes at ~2360ms (1400ms delay + 960ms duration)
+  useEffect(() => {
+    const t = setTimeout(() => setPageVisible(true), 2400);
+    return () => clearTimeout(t);
   }, []);
 
   const handleSectionChange = (section: Section) => {
@@ -33,37 +41,46 @@ export default function Home() {
     <>
       <LoadingScreen />
 
-      {/* ── Globe video: altijd zichtbaar als achtergrond ── */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
-        <video
-          autoPlay muted loop playsInline
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        >
-          <source src="/globe-video.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      <TopNav activeSection={activeSection} onSectionChange={handleSectionChange} />
-
-      {/* ── Content: direct na nav, vaste warme achtergrond ── */}
-      <main className="page-enter" style={{
+      {/* ── Pagina fadet in OVER de loading screen (globe blijft groot, geen krimpen) ── */}
+      <div style={{
         position: "relative",
-        zIndex: 1,
-        minHeight: "100vh",
-        paddingTop: "88px",
-        paddingBottom: "80px",
-        paddingLeft: "48px",
-        paddingRight: "48px",
-        background: "#F5EDEB",
+        zIndex: 10000,
+        opacity: pageVisible ? 1 : 0,
+        transition: "opacity 0.85s cubic-bezier(0.4,0,0.2,1)",
+        pointerEvents: pageVisible ? "all" : "none",
       }}>
-        {activeSection === "nieuws" && <NewsGrid items={liveNews} />}
-        {activeSection === "tips"   && <TipsSection />}
-        {activeSection === "tools"  && <ToolsSection />}
-      </main>
+        {/* ── Globe video: achtergrond ── */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
+          <video
+            autoPlay muted loop playsInline
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          >
+            <source src="/globe-video.mp4" type="video/mp4" />
+          </video>
+        </div>
 
-      {/* ── Ticker: altijd zichtbaar onderaan ── */}
-      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50 }}>
-        <NewsTicker items={liveNews} />
+        <TopNav activeSection={activeSection} onSectionChange={handleSectionChange} />
+
+        {/* ── Content ── */}
+        <main style={{
+          position: "relative",
+          zIndex: 1,
+          minHeight: "100vh",
+          paddingTop: "88px",
+          paddingBottom: "80px",
+          paddingLeft: "48px",
+          paddingRight: "48px",
+          background: "#F5EDEB",
+        }}>
+          {activeSection === "nieuws" && <NewsGrid items={liveNews} />}
+          {activeSection === "tips"   && <TipsSection />}
+          {activeSection === "tools"  && <ToolsSection />}
+        </main>
+
+        {/* ── Ticker ── */}
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50 }}>
+          <NewsTicker items={liveNews} />
+        </div>
       </div>
     </>
   );

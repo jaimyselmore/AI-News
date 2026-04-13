@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-type Phase = "hidden" | "enter" | "expand" | "fade" | "done";
+type Phase = "hidden" | "enter" | "expand" | "done";
 
 export default function LoadingScreen() {
   const [phase, setPhase] = useState<Phase>("hidden");
@@ -9,9 +9,9 @@ export default function LoadingScreen() {
   useEffect(() => {
     const t0 = setTimeout(() => setPhase("enter"),   80);
     const t1 = setTimeout(() => setPhase("expand"), 1400);
-    const t2 = setTimeout(() => setPhase("fade"),   2350);
-    const t3 = setTimeout(() => setPhase("done"),   2900);
-    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    // Stay fully visible until the page has faded in on top
+    const t2 = setTimeout(() => setPhase("done"),   3400);
+    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   if (phase === "done") return null;
@@ -40,9 +40,8 @@ export default function LoadingScreen() {
       alignItems: "center",
       justifyContent: "center",
       overflow: "hidden",
-      opacity: phase === "fade" ? 0 : 1,
-      transition: phase === "fade" ? "opacity 0.5s cubic-bezier(0.4,0,0.2,1)" : "none",
-      pointerEvents: phase === "fade" ? "none" : "all",
+      opacity: 1,
+      pointerEvents: "all",
     }}>
 
       {/* ── Wereldbol cirkel ── */}
